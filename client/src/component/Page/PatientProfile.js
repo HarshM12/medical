@@ -10,61 +10,61 @@ import UserProfile from "./UserProfile";
 const PatientProfile = () => {
     const [Payment, setpayment] = useState(false);
     const [show, setShow] = useState(false);
-    // const [Patient_details, setPatientDetails] = useState(false);
-    // const user_details = UserProfile.getName();
-    // var [edit_user, setEditUserData] = useState({});
+    const [Patient_details, setPatientDetails] = useState(false);
+    const user_details = UserProfile.getName();
+    var [edit_user, setEditUserData] = useState({});
 
-    // const getPatientDetails = async () => {
-    //     const res = await fetch('/patient/' + user_details.id, {
-    //         credentials: "same-origin",
-    //         method: "GET",
-    //         headers: {
-    //             Accept: 'application/json',
-    //             "Content-Type": "application/json"
-    //         }
-    //     });
-    //     let result = await res.json();
-    //     console.log(result)
-    //     if (result) {
-    //         console.log(JSON.stringify(result));
-    //         // setPatientDetails(result);
-    //          console.log(setPatientDetails(result))
+    const getPatientDetails = async () => {
+        const res = await fetch('/patient/' + user_details.id, {
+            credentials: "same-origin",
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log(JSON.stringify(result));
+            setPatientDetails(result);
+             console.log(JSON.stringify(Patient_details));
 
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    // const EditProfile = (Patient_details) => {
-    //     console.log(JSON.stringify(Patient_details));
-    //     setEditUserData(Patient_details);
-    //     setShow(true);
-    // };
-    // const UpdateProfile = async () => {
-    //     const res = await fetch('/patient/' + user_details.id, {
-    //         credentials: "same-origin",
-    //         method: "PATCH",
-    //         headers: {
-    //             Accept: 'application/json',
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(edit_user)
-    //     });
-    //     let result = await res.json();
-    //     console.log(result)
-    //     if (result) {
-    //         console.log("Data:" + JSON.stringify(result));
-    //         setPatientDetails(Patient_details);
-    //         getPatientDetails();
-    //         setShow(false);
-    //         alert("Your profile information updated successfully.")
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    // useEffect(() => {
-    //     console.log("executed only once!");
-    //     getPatientDetails();
-    // }, []);
+        } else {
+            return false;
+        }
+    };
+    const EditProfile = (Patient_details) => {
+        console.log(JSON.stringify(Patient_details));
+        setEditUserData(Patient_details);
+        setShow(true);
+    };
+    const UpdateProfile = async () => {
+        const res = await fetch('/patient/' + user_details.id, {
+            credentials: "same-origin",
+            method: "PATCH",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(edit_user)
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log("Data:" + JSON.stringify(result));
+            setPatientDetails(Patient_details);
+            getPatientDetails();
+            setShow(false);
+            alert("Your profile information updated successfully.")
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getPatientDetails();
+    }, []);
 
     return (
         <>
@@ -107,7 +107,7 @@ const PatientProfile = () => {
                             </div>
                             <div className="col-md-6">
                                 <div className="profile-head">
-                                    <h5>name.</h5>
+                                    <h5>{Patient_details && Patient_details.fname}</h5>
 
                                     <ul className="nav nav" role="tablist" style={{ marginTop: "40px" }}>
                                         <li className="nav-item">
@@ -118,7 +118,7 @@ const PatientProfile = () => {
                                 </div>
                             </div>
                             <div className="col-md-2">
-                                <div className="btn1 btn1--link" >Edit Profile</div>
+                                <div className="btn1 btn1--link">Edit Profile</div>
                                 <div className="btn1 btn1--link" onClick={() => setpayment(true)} style={{ marginTop: "-15px" }}>Payment History</div>
                             </div>
 

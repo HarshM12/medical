@@ -19,7 +19,7 @@ const MemoryStore = require('memorystore')(session)
 app.use(session({
     cookie: { maxAge: 86400000 },
     store: new MemoryStore({
-      checkPeriod: 86400000 // prune expired entries every 24h
+        checkPeriod: 86400000 // prune expired entries every 24h
     }),
     resave: false,
     secret: 'keyboard cat'
@@ -32,7 +32,7 @@ function get_output(req, res, resource) {
             const user = req.session.user_details
             let query = req.query;
             model = get_model(resource);
-            if(user.role=="Doctor"){
+            if (user.role == "Doctor") {
                 query.doctor = user.id
                 model.find(query).populate('doctor').populate('patient').exec(function (err, story) {
                     if (err) return console.log(err);
@@ -40,7 +40,7 @@ function get_output(req, res, resource) {
                     res.send(story);
                 });
             }
-            if(user.role=="Patient"){
+            if (user.role == "Patient") {
                 query.patient = user.id;
                 model.find(query).populate('doctor').populate('patient').exec(function (err, story) {
                     if (err) return console.log(err);
@@ -48,12 +48,12 @@ function get_output(req, res, resource) {
                     res.send(story);
                 });
             }
-            if(user.role == "Admin"){
+            if (user.role == "Admin") {
                 model.find(query).populate('doctor').populate('patient').exec(function (err, story) {
                     if (err) return console.log(err);
                     console.log(JSON.stringify(story[0]));
                     res.send(story);
-                });    
+                });
             }
             break;
 
@@ -62,33 +62,69 @@ function get_output(req, res, resource) {
                 const user = req.session.user_details;
                 let query = req.query;
                 model = get_model(resource);
-                if(user.role=="Doctor"){
+                if (user.role == "Doctor") {
                     query._id = user.id
                     model.findOne(query).populate('category').
-                    exec(function (err, result) {
-                        if (err) return console.log(err);
-                        console.log(JSON.stringify(result));
-                        res.send(result);
-                    });
-                }else{
+                        exec(function (err, result) {
+                            if (err) return console.log(err);
+                            console.log(JSON.stringify(result));
+                            res.send(result);
+                        });
+                } else {
                     console.log("else");
                     model.findOne(query).populate('category').
-                    exec(function (err, result) {
-                        if (err) return console.log(err);
-                        console.log(JSON.stringify(result));
-                        res.send(result);
-                    });
+                        exec(function (err, result) {
+                            if (err) return console.log(err);
+                            console.log(JSON.stringify(result));
+                            res.send(result);
+                        });
                 }
             } else {
                 const user = req.session.user_details;
-                if(!user || (user && user.role!="Doctor")){
+                if (!user || (user && user.role != "Doctor")) {
                     model = get_model(resource);
                     model.find(req.query).populate('category').
                         exec(function (err, result) {
                             if (err) return console.log(err);
                             console.log(JSON.stringify(result));
                             res.send(result);
-                        });    
+                        });
+                }
+            }
+            break;
+
+        case "patient":
+            if (req.params.id) {
+                const user = req.session.user_details;
+                let query = req.query;
+                model = get_model(resource);
+                if (user.role == "Patient") {
+                    query._id = user.id
+                    model.findOne(query).
+                        exec(function (err, result) {
+                            if (err) return console.log(err);
+                            console.log(JSON.stringify(result));
+                            res.send(result);
+                        });
+                } else {
+                    console.log("else");
+                    model.findOne(query).
+                        exec(function (err, result) {
+                            if (err) return console.log(err);
+                            console.log(JSON.stringify(result));
+                            res.send(result);
+                        });
+                }
+            } else {
+                const user = req.session.user_details;
+                if (!user || (user && user.role != "Patient")) {
+                    model = get_model(resource);
+                    model.find(req.query).
+                        exec(function (err, result) {
+                            if (err) return console.log(err);
+                            console.log(JSON.stringify(result));
+                            res.send(result);
+                        });
                 }
             }
             break;
