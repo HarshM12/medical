@@ -1,0 +1,31 @@
+{
+  "name": "finalyear",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon App.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "https": "^1.0.0",
+    "memorystore": "^1.6.7",
+    "mongoose": "^6.1.10",
+    "nodemon": "^2.0.15",
+    "paytmchecksum": "^1.5.0",
+    "validator": "^13.7.0"
+  }
+}
