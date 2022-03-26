@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import '../../Css/admin/Doctortable.css'
 import PhotoOutlinedIcon from '@material-ui/icons/PhotoOutlined';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+
 
 const Patienttable = () => {
     const [patients, setPatients] = useState();
@@ -49,12 +58,76 @@ const Patienttable = () => {
         }
     };
 
+    const [Patient_details, setPatientDetails] = useState(false);
+
+    const getPatientDetails = async () => {
+        const res = await fetch('/patient', {
+            credentials: "same-origin",
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log(JSON.stringify(result));
+            setPatientDetails(result);
+            console.log(JSON.stringify(Patient_details));
+
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getPatientDetails();
+    }, []);
+
     return (
         <>
             <div className="home">
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
                         <h1>Patient List</h1>
+                        <div className="row">
+                            <div className="col-md-6 mt-4">
+                                <FormControl style={{ width: "50%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Search</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="Add Doctor Category"
+                                        name="name"
+                                    >
+                                        {Patient_details && Patient_details.map((patient, index) => {
+                                            return (
+                                                <MenuItem value={patient._id}>{patient.fname} {patient.lname}</MenuItem>
+                                            )
+                                        })}
+                                    </Select>
+                                </FormControl>
+
+                            </div>
+                            <div className="col-md-6 mt-4">
+                                <FormControl>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                        defaultValue="All"
+
+                                    >
+                                        <FormControlLabel value="All" control={<Radio />} label="All" />
+                                        <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                        <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                        
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+
+                        </div>
                         <table class="table align-middle text-center">
                             <thead>
                                 <tr>
@@ -76,7 +149,6 @@ const Patienttable = () => {
                                             <td>{patient.email}</td>
                                             <td>{patient.mobile}</td>
                                             <td>
-                                                {/* <div onClick={() => removeDoctor(patient)}><i class="fa fa-ban mr-1"></i> Block</div> */}
                                                 <div onClick={() => removeDoctor(patient)} className="mr-5"><i className="fa fa-trash"></i> Delete</div>
 
                                             </td>

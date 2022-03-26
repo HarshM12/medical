@@ -4,15 +4,20 @@ import { TextField } from "@mui/material";
 import {
   Button,
 } from 'reactstrap';
+import { Modal } from "react-bootstrap";
 
 const Categorytable = () => {
-
+  const [show, setShow] = useState(false);
   const [Category, setCategory] = useState();
+  const [editCategory, setEditCategory] = useState();
   const [categories, setCategories] = useState();
 
   const saveData = async () => {
-    const res = await fetch('/category/create', {
-      method: "POST",
+    let url = editCategory ? `/category/${editCategory._id}` : "/category/create";
+    let request_method = editCategory ? "PATCH" : "POST";
+    console.log(url + " " + request_method);
+    const res = await fetch(url, {
+      method: request_method,
       headers: {
         "Content-Type": "application/json"
       },
@@ -75,7 +80,12 @@ const Categorytable = () => {
     }
   };
 
-
+  const EditCategory = (category) => {
+    console.log(category._id);
+    setShow(true);
+    setEditCategory(category);
+    setCategory(category.name);
+  };
 
   return (
     <>
@@ -98,7 +108,7 @@ const Categorytable = () => {
                       <td>{category.name}</td>
                       <td>
                         <div className="btn-group">
-                          <button className="btn btn-outline-primary btn-sm ml-2"><i class="fa fa-pencil mr-1"></i></button>
+                          <button className="btn btn-outline-primary btn-sm ml-2" onClick={() => EditCategory(category)}><i class="fa fa-pencil mr-1"></i></button>
                           <button className="btn btn-outline-danger btn-sm" onClick={() => removeCat(category)} ><i class="fa fa-trash mr-1"></i></button>
                         </div>
                       </td>
@@ -107,6 +117,36 @@ const Categorytable = () => {
                 })}
               </thead>
             </table>
+            {/* <Modal
+              show={show}
+              onHide={() => setShow(false)}
+              dialogClassName="modal-dialog modal-md"
+              aria-labelledby="example-custom-modal-styling-title"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-custom-modal-styling-title">
+                  Edit Your Profile
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="tab-content profile-tab" id="mytab content">
+                  <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" >
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-6">
+                          <label>
+                            Category Id
+                          </label>
+                        </div>
+                        <div className="col-6">
+                          <label>{}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal> */}
           </div>
         </div>
       </div>

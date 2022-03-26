@@ -119,7 +119,7 @@ const Login = () => {
                     
                     <br /><br></br>
                     <input className="btn btn-primary" type="submit"  style={{ marginLeft: "270px",width:"490px",marginTop:"-25px" }} onClick={Data} autoComplete="off" /><br/>
-                    <Link to="/Register" style={{marginLeft: "270px"}}>Forgot Password?</Link>
+                    <Link to="/ForgotPassword" style={{marginLeft: "270px"}}>Forgot Password?</Link>
 
                 </form>
 

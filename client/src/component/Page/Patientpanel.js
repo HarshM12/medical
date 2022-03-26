@@ -10,6 +10,8 @@ import {
 	Button,
 } from 'reactstrap';
 import UserProfile from "./UserProfile";
+import { Modal } from "react-bootstrap";
+
 
 const Patientpanel = () => {
 	const [PatientAppointment, setPatientAppointment] = useState({
@@ -18,6 +20,7 @@ const Patientpanel = () => {
 	let name, value;
 	const [appointment_data, setAppointmentData] = useState(0);
 	const [doctors, setDoctorData] = useState(0);
+	const [paymentData, setPaymentData] = useState("");
 	const hendleInput = (e) => {
 		name = e.target.name;
 		value = e.target.value;
@@ -30,7 +33,7 @@ const Patientpanel = () => {
 		console.log(PatientAppointment);
 	}
 
-	const PostData = async (e) => {
+	const PostData = async (e, paymentdata) => {
 		e.preventDefault();
 		const data = PatientAppointment;
 		if (data.doctor == "" || data.date == "" || data.slot == "" || data.mode == "" || data.symptoms == "") {
@@ -57,6 +60,7 @@ const Patientpanel = () => {
 		}
 	}
 
+
 	const getAppointmentData = async () => {
 		console.log("start get data............");
 		const res = await fetch('/appointment', {
@@ -81,7 +85,7 @@ const Patientpanel = () => {
 	};
 
 	const getDoctorList = async () => {
-		const data = { status: true } ;
+		const data = { status: true };
 		const res = await fetch('/doctor?status=true', {
 			credentials: "same-origin",
 			method: "GET",
@@ -146,6 +150,19 @@ const Patientpanel = () => {
 		}
 	};
 
+	// Edit Appointment
+
+	const [Appointment_details, setAppointmentDetails] = useState(false);
+	var [edit_appointment, setUpdateAppointment] = useState({});
+	const [show, setShow] = useState(false);	
+	const EditAppointment = (Appointment_details) => {
+        console.log(JSON.stringify(Appointment_details));
+        setUpdateAppointment(Appointment_details);
+        setShow(true);
+    };
+
+
+
 
 	return (
 		<>
@@ -182,6 +199,7 @@ const Patientpanel = () => {
 					<div className="col-md-6">
 						<div className="card p-3 ml-3 mr-3" style={{ backgroundColor: "whitesmoke" }}>
 							<h1 className="mb-2" style={{ textAlign: "center" }}>Book Your Appointment Now</h1>
+							{/* < button onClick={makePayment}>Pay Now</button > */}
 							<form method="POST" style={{ marginLeft: "70px", marginTop: "15px" }} >
 								<FormControl variant="standard" style={{ width: "80%" }}>
 									<InputLabel id="demo-simple-select-standard-label">Select Doctor</InputLabel>
@@ -195,8 +213,8 @@ const Patientpanel = () => {
 										required
 									>
 										{doctors && doctors.map((doctor) => {
-											return(
-												<MenuItem value={doctor._id}>Dr. {doctor.fname} {doctor.lname}</MenuItem>												
+											return (
+												<MenuItem value={doctor._id}>Dr. {doctor.fname} {doctor.lname}</MenuItem>
 											)
 										})}
 										{/* <MenuItem value={"621ef3024054bec96d731112"}>Dr. Nilam Patel</MenuItem>
@@ -262,8 +280,11 @@ const Patientpanel = () => {
 								</FormControl><br />
 								<TextField id="outlined-basic" style={{ width: "80%" }} label="symptoms " name="symptoms" variant="outlined" autoComplete="off" value={PatientAppointment.symptoms} onChange={hendleInput} required />
 								<br /><br />
-								<Button variant="outlined" onClick={PostData}>Confirm</Button>&nbsp;&nbsp;
+								<Button variant="outlined" onClick={PostData} >Book Appointment</Button>&nbsp;&nbsp;
+								{/* <Button variant="outlined" onClick={makpayment} >Payment</Button>&nbsp;&nbsp; */}
 								<Button variant="outlined" >Reset</Button>
+								<br />
+								<br />
 							</form>
 						</div>
 					</div>
@@ -302,7 +323,7 @@ const Patientpanel = () => {
 																<td>{appointment.mode}</td>
 																<td>
 																	<div className="btn-group">
-																		<button className="btn btn-outline-primary btn-sm ml-2"><i class="fa fa-pencil mr-1"></i></button>
+																		<button className="btn btn-outline-primary btn-sm ml-2" onClick={() => EditAppointment(Appointment_details)} ><i class="fa fa-pencil mr-1"></i></button>
 																		<button className="btn btn-outline-danger btn-sm ml-2 " onClick={() => removeAppointment(appointment)}> <i class="fa fa-trash mr-1"></i></button>
 																	</div>
 																</td>
@@ -321,15 +342,50 @@ const Patientpanel = () => {
 			</div>
 
 			<br />
-
-
-
-			{/* <Card style={{ backgroundColor: "whitesmoke", width: "50%", marginTop: "-650px", marginLeft: "700px" }}>
-				
-
-			</Card> */}
-
-
+			<Modal
+                            show={show}
+                            onHide={() => setShow(false)}
+                            dialogClassName="modal-dialog modal-md"
+                            aria-labelledby="example-custom-modal-styling-title"
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title id="example-custom-modal-styling-title">
+                                    Edit Appointment
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className="tab-content profile-tab" id="mytab content">
+                                    <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" >
+                                        <div className="container">
+                                            <div className="row mt-3">
+                                                <div className="col-md-5">
+                                                    <label>Appointment Date</label>
+                                                </div>
+                                                <div className="col-md-7">
+                                                    <TextField id="standard-basic" type="date" onChange={(e) => setUpdateAppointment({ date: e.target.value })} value={edit_appointment && edit_appointment.date} className="form-control" variant="standard" autoComplete="off" placeholder="Enter First Name" />
+                                                </div>
+                                            </div>
+                                            <div className="row mt-3">
+                                                <div className="col-md-5">
+                                                    <label>Appointment Slot</label>
+                                                </div>
+                                                <div className="col-md-7">
+                                                    <TextField id="standard-basic" onChange={(e) => setUpdateAppointment({ slot: e.target.value })} value={edit_appointment && edit_appointment.slot} type="number" className="form-control" variant="standard" autoComplete="off" />
+                                                </div>
+                                            </div>
+											<div className="row">
+                                                <div className="col-md-4">
+                                                </div>
+                                                <div className="col-md-8">
+                                                <Button variant="outline-success">Save Change</Button>{' '}
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </Modal.Body>
+                        </Modal>
 
 
 

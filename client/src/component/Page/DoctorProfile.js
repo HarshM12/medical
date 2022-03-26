@@ -7,6 +7,7 @@ import '../Css/patientprofile.css';
 import { Modal } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import UserProfile from "./UserProfile";
+
 const DoctorProfile = () => {
     const [show, setShow] = useState(false);
     const [Payment, setpayment] = useState(false);

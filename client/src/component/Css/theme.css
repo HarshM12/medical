@@ -7,6 +7,10 @@
   Version: 1.0
  */
 
+ @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Cinzel&family=EB+Garamond&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond&family=Prata&display=swap');
+
  :root {
     --primary: #00D9A5;
     --accent: #FF3D85;
@@ -1834,3 +1838,27 @@
     padding-left: 14px !important;
     border-radius: 40px 0 0 40px;
   }
+
+  .subhead{
+    font-family: 'EB Garamond', serif;
+    margin-left: 20px;
+  }
+
+  .card1{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.9);
+    transition: 0.3s;
+    width: 50%;
+    border-radius: 5px;
+    margin-left: 400px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  
+  .card1:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  .note{
+    margin-left:30px;
+    font-family: 'Prata', serif;
+    }
+  

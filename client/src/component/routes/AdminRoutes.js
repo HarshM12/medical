@@ -9,6 +9,7 @@ import Patientinfo from '../Page/admin/Patientinfo';
 import Payment from "../Page/admin/Payment";
 import Appointment from '../Page/admin/Appointment';
 import Category from "../Page/admin/Category";
+import Report from "../Page/admin/Report";
 
 const AdminRoute = () => {
     return(
@@ -23,6 +24,7 @@ const AdminRoute = () => {
                         <Route path='/Payment' element={<Payment/>} exact />
                         <Route path='/appointment' element={<Appointment/>} exact />
                         <Route path='/Category' element={<Category/>} exact />
+                        <Route path='/Report' element={<Report/>} exact />
                         <Route path='/Logout' element={<Logout/>} exact/>
                     </Routes>
                 </BrowserRouter>

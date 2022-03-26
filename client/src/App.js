@@ -16,6 +16,10 @@ import PatientRegister from './component/Page/PatientRegister';
 import UserProfile from './component/Page/UserProfile';
 import AdminRoute from './component/routes/AdminRoutes';
 import Logout from './component/Page/Logout';
+import ForgotPassword from './component/Page/ForgotPassword';
+import OtpGenration from './component/Page/OtpGenration';
+import ResetPassword from './component/Page/ResetPassword';
+import ReadMore from './component/Page/ReadMore';
 
 function App() {
   let user_role = UserProfile.getRole();
@@ -54,6 +58,9 @@ function App() {
           <Route path='/PatientRegister' element={<PatientRegister/>} exact />
           <Route path='/Login' element={<Login/>} exact />
           <Route path='/Logout' element={<Logout/>} exact/>
+          <Route path='/ForgotPassword' element={<ForgotPassword/>} exact/>
+          <Route path='/OtpGenration' element={<OtpGenration/>} exact/>
+          <Route path='/ResetPassword' element={<ResetPassword/>} exact/>
 
         </Routes>
       </Router>      

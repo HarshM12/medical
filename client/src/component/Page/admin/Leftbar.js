@@ -12,6 +12,7 @@ import {
     WorkOutline,
     Report,
 } from "@material-ui/icons";
+import ReportIcon from '@mui/icons-material/Report';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { Link } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -64,6 +65,12 @@ const Leftbar = () => {
                             <li className="sidebarListItem">
                                 <CategoryIcon className="sidebarIcon" />
                                  Category
+                            </li>
+                            </Link>
+                            <Link to="/Report" className="link">
+                            <li className="sidebarListItem">
+                                <ReportIcon className="sidebarIcon" />
+                                 Report
                             </li>
                             </Link>
                         </ul>

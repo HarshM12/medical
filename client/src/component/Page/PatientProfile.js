@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from 'react-router-dom';
 import profilePic from '../../img/person/person_4.png';
-import { TextField, Card, Button } from "@mui/material";
+import { TextField, Card } from "@mui/material";
 import '../Css/patientprofile.css'
+import { Button } from 'react-bootstrap';
 import { Modal } from "react-bootstrap";
 import UserProfile from "./UserProfile";
 
@@ -101,24 +102,23 @@ const PatientProfile = () => {
                     <form method="">
                         <div className="row">
                             <div className="col-md-4">
-                                <img src={profilePic} alt="profile" style={{ borderRadius: "100px", height: "180px" }}></img>
-                                <div className="btn1 btn1--link" style={{ marginLeft: "-10px" }} >Upload Profile Photos</div>
-
+                                <img src={profilePic} alt="profile" style={{ borderRadius: "10px", height: "180px" }}></img>
+                                <div className="btn1 btn1--link" type="file" style={{ marginLeft: "-10px" }} >Update Profile Photo</div>
                             </div>
                             <div className="col-md-6">
                                 <div className="profile-head">
-                                    <h5>{Patient_details && Patient_details.fname}</h5>
+                                    <h3>{Patient_details && Patient_details.fname} {Patient_details && Patient_details.lname}</h3>
 
                                     <ul className="nav nav" role="tablist" style={{ marginTop: "40px" }}>
                                         <li className="nav-item">
-                                            <h1>  <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"> Information</a></h1>
+                                            <h1>  <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"> Personal Information</a></h1>
                                         </li>
 
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-md-2">
-                                <div className="btn1 btn1--link">Edit Profile</div>
+                                <div className="btn1 btn1--link" onClick={() => EditProfile(Patient_details)}>Edit Profile</div>
                                 <div className="btn1 btn1--link" onClick={() => setpayment(true)} style={{ marginTop: "-15px" }}>Payment History</div>
                             </div>
 
@@ -135,7 +135,7 @@ const PatientProfile = () => {
                                                 <label>Patient ID</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>name</p>
+                                                <p>{Patient_details && Patient_details._id}</p>
                                             </div>
                                         </div>
                                         <div className="row mt-3">
@@ -143,7 +143,7 @@ const PatientProfile = () => {
                                                 <label>Name</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>name</p>
+                                                <p>{Patient_details && Patient_details.fname} {Patient_details && Patient_details.lname}</p>
                                             </div>
                                         </div>
 
@@ -152,7 +152,7 @@ const PatientProfile = () => {
                                                 <label>Date Of Birth</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>2-11-2001</p>
+                                                <p>{Patient_details && Patient_details.date}</p>
                                             </div>
                                         </div>
                                         <div className="row mt-3">
@@ -160,7 +160,7 @@ const PatientProfile = () => {
                                                 <label>Gender</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>Male</p>
+                                                <p>{Patient_details && Patient_details.gender}</p>
                                             </div>
                                         </div>
                                         <div className="row mt-3">
@@ -168,7 +168,7 @@ const PatientProfile = () => {
                                                 <label>Address</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>Surat</p>
+                                                <p>{Patient_details && Patient_details.address}</p>
                                             </div>
                                         </div>
                                         <div className="row mt-3">
@@ -176,7 +176,7 @@ const PatientProfile = () => {
                                                 <label>Email</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>harsh232@gmail.com</p>
+                                                <p>{Patient_details && Patient_details.email}</p>
                                             </div>
                                         </div><br /><br /><br />
                                     </div>
@@ -287,7 +287,7 @@ const PatientProfile = () => {
                                                     <label>First Name</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" className="form-control" variant="standard" autoComplete="off" placeholder="Enter First Name" />
+                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ fname: e.target.value })} value={edit_user && edit_user.fname} className="form-control" variant="standard" autoComplete="off" placeholder="Enter First Name" />
                                                 </div>
                                             </div>
                                             <div className="row mt-3">
@@ -295,7 +295,7 @@ const PatientProfile = () => {
                                                     <label>Last Name</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" className="form-control" variant="standard" autoComplete="off" />
+                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ lname: e.target.value })} value={edit_user && edit_user.lname} className="form-control" variant="standard" autoComplete="off" />
                                                 </div>
                                             </div>
                                             <div className="row mt-3">
@@ -303,7 +303,7 @@ const PatientProfile = () => {
                                                     <label>Date Of Birth</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" className="form-control" type="date" style={{ marginTop: "-5px" }} variant="standard" autoComplete="off" />
+                                                    <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ date: e.target.value })} value={edit_user && edit_user.date} type="date" style={{ marginTop: "-5px" }} variant="standard" autoComplete="off" />
                                                 </div>
                                             </div>
                                             <div className="row mt-3">
@@ -311,7 +311,7 @@ const PatientProfile = () => {
                                                     <label>Address</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" className="form-control" variant="standard" autoComplete="off" />
+                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ address: e.target.value })} value={edit_user && edit_user.address}  className="form-control" variant="standard" autoComplete="off" />
                                                 </div>
                                             </div>
                                             <div className="row mt-3">
@@ -319,14 +319,14 @@ const PatientProfile = () => {
                                                     <label>Email</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" className="form-control" variant="standard" autoComplete="off" />
+                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ email: e.target.value })} value={edit_user && edit_user.email} className="form-control" variant="standard" autoComplete="off" />
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4">
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <Button variant="outline-success">Save Change</Button>{' '}
+                                                <Button variant="outline-success" onClick={(e) => UpdateProfile()}>Save Change</Button>{' '}
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,28 @@
 import React, { useEffect, useState } from "react";
-import '../../Css/admin/Doctortable.css';
+// import '../../Css/admin/Doctortable.css';
 import PhotoOutlinedIcon from '@material-ui/icons/PhotoOutlined';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+import { TextField, Card } from "@mui/material";
+
+
+// import moment from 'moment';
+// import { DatePicker, Space } from 'antd';
+
+// const { RangePicker } = DatePicker;
+// // Date Picker
+// const dateFormat = 'YYYY/MM/DD';
+// const weekFormat = 'MM/DD';
+// const monthFormat = 'YYYY/MM';
+// const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+
 
 
 const Appointmenttable = () => {
@@ -133,11 +155,138 @@ const Appointmenttable = () => {
         }
     };
 
+
+    const [searchdoctor, setsearchdoctor] = useState('');
+
+    const handleChange = (event) => {
+        setsearchdoctor(event.target.value);
+    };
+
+    const [doctorlist, setdoctorlist] = useState(0);
+
+    const getdoctorlist = async (doctor) => {
+        console.log("start get data............");
+        const res = await fetch('/doctor', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log("test");
+            if (doctorlist != result) {
+                console.log(result[0]);
+                setdoctorlist(result);
+            }
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getdoctorlist();
+    }, []);
+
+
+    const [Patient_details, setPatientDetails] = useState(false);
+
+    const getPatientDetails = async () => {
+        const res = await fetch('/patient', {
+            credentials: "same-origin",
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log(JSON.stringify(result));
+            setPatientDetails(result);
+            console.log(JSON.stringify(Patient_details));
+
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getPatientDetails();
+    }, []);
+
+
     return (
         <>
             <div className="home">
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
+                        <h1>Appointment Details</h1>
+                        <div className="row mt-4">
+                            <div className="col-md-4">
+                                <FormControl style={{ width: "80%" }}>
+                                    <InputLabel id="demo-simple-select-label">Search Doctor</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={searchdoctor}
+                                        label="Search Doctor"
+                                        onChange={handleChange}
+                                    >
+
+                                        {doctorlist && doctorlist.map((doctorlist, index) => {
+                                            return (
+                                                <>
+                                                    <MenuItem value={doctorlist._id}>{doctorlist.fname} {doctorlist.lname}</MenuItem>
+
+                                                </>
+                                            )
+                                        })
+
+                                        }
+                                    </Select>
+                                </FormControl>
+                                <TextField id="outlined-basic" name="date" type="date" variant="outlined" className="mt-3"/>
+
+                            </div>
+                            <div className="col-md-4">
+                                <FormControl style={{ width: "80%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Search Patient</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="Add Doctor Category"
+                                        name="name"
+                                    >
+                                        {Patient_details && Patient_details.map((patient, index) => {
+                                            return (
+                                                <MenuItem value={patient._id}>{patient.fname} {patient.lname}</MenuItem>
+                                            )
+                                        })}
+                                    </Select>
+                                </FormControl>
+                                <TextField id="outlined-basic" name="date" type="date" variant="outlined" className="mt-3"/>
+                            </div>
+                            <div col-md-3>
+                                <FormControl>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                        defaultValue="All"
+
+                                    >
+                                        <FormControlLabel value="All" control={<Radio />} label="All" />
+                                        <FormControlLabel value="online" control={<Radio />} label="Online" />
+                                        <FormControlLabel value="offline" control={<Radio />} label="offline" />
+
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+
+                        </div>
                         <table class="table align-middle text-center">
                             <thead>
                                 <tr>

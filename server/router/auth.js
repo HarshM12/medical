@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 router.post('/PatientRegister', async (req, res) => {
 
-    const { fname, lname, date, gender, address, mobile, email, password, role } = req.body;
+    const { fname, lname, date, gender, address, mobile, email, password, role , file } = req.body;
 
     if (!fname || !lname || !date || !gender || !address || !mobile || !email || !password || !role) {
         return res.status(422).json({ error: "Please fill the field Properly" });
@@ -38,7 +38,7 @@ router.post('/PatientRegister', async (req, res) => {
             return res.status(422).json({ error: "Email Allredy Exist" });
         }
 
-        const user = new User({ fname, lname, date, gender, address, mobile, email, password, role })
+        const user = new User({ fname, lname, date, gender, address, mobile, email, password, role , file})
         const UserRegister = await user.save();
 
         if (UserRegister) {
@@ -57,7 +57,7 @@ router.post('/PatientRegister', async (req, res) => {
 
 router.post('/DoctorRegister', async (req, res) => {
 
-    const { fname, lname, category, gender, date, file, Address, Mobileno, email, password, role } = req.body;
+    const { fname, lname, category, gender, date, file, Address, Mobileno, email, password, role , p_img } = req.body;
 
     if (!fname || !lname || !date || !gender || !Address || !Mobileno || !email || !password || !file || !category || !role) {
         return res.status(422).json({ error: "Please fill the field Properly" });
@@ -67,7 +67,7 @@ router.post('/DoctorRegister', async (req, res) => {
         if (Userexist) {
             return res.status(422).json({ error: "Email Allredy Exist" });
         }
-        const user = new Doctor({ fname, lname, category, gender, date, file, Address, Mobileno, email, password, role })
+        const user = new Doctor({ fname, lname, category, gender, date, file, Address, Mobileno, email, password, role , p_img })
         const DoctorRegister = await user.save();
 
         if (DoctorRegister) {

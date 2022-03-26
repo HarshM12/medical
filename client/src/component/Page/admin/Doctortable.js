@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import '../../Css/admin/Doctortable.css'
 import { DataGrid } from '@mui/x-data-grid';
 import PhotoOutlinedIcon from '@material-ui/icons/PhotoOutlined';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 const Doctortable = () => {
 
     const [doctors, setDoctors] = useState();
@@ -90,13 +94,116 @@ const Doctortable = () => {
         }
     };
 
+    const [searchdoctor, setsearchdoctor] = useState('');
+
+    const handleChange = (event) => {
+        console.log(event.target.value);
+        setsearchdoctor(event.target.value);
+    };
+
+    const [doctorlist, setdoctorlist] = useState(0);
+
+    const getdoctorlist = async (doctor) => {
+        console.log("start get data............");
+        const res = await fetch('/doctor', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log("test");
+            if (doctorlist != result) {
+                console.log(result[0]);
+                setdoctorlist(result);
+                setsearchdoctor(result[0])
+            }
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getdoctorlist();
+    }, []);
+    const [categories, setCategories] = useState();
+
+    const getCategory = async () => {
+        const res = await fetch('/category', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const response = await res.json();
+        if (res.status === 200 || !response) {
+            setCategories(response);
+        }
+        else {
+            console.log("Fail");
+        }
+    };
+
+    useEffect(() => {
+        console.log("executed only once!");
+        getCategory();
+    }, []);
+
+
     return (
         <>
             <div className="home">
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
                         <h1>Doctor List</h1>
-                        <table className="table align-middle">
+                        <div className="row mt-4 ml-2">
+                            <div className="col-md-6 mt-4">
+                                <FormControl style={{ width: "50%" }}>
+                                    <InputLabel id="demo-simple-select-label">Search Doctor</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value=""
+                                        label="Search Doctor"
+                                        onChange={handleChange}
+                                    >
+                                        {doctorlist && doctorlist.map((doctorlist, index) => {
+                                            return (
+                                                <>
+                                                    <MenuItem value={doctorlist._id}>{doctorlist.fname} {doctorlist.lname}</MenuItem>
+
+                                                </>
+                                            )
+                                        })
+
+                                        }
+
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className="col-md-6 mt-4">
+                                <FormControl style={{ width: "50%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Search Category</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="Add Doctor Category"
+                                        name="category"
+                                    >
+                                        {categories && categories.map((category, index) => {
+                                            return (
+                                                <MenuItem value={category._id}>{category.name}</MenuItem>
+                                            )
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                        </div>
+
+
+                        <table className="table align-middle mt-3">
                             <thead>
                                 <tr>
                                     <th scope="col">Doctor ID</th>

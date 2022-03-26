@@ -43,6 +43,9 @@ const DoctorSchema = new mongoose.Schema({
         type:Buffer,
         required:true
     },
+    p_img:{
+        type:Buffer
+    },
     role: {
         type: String
     },

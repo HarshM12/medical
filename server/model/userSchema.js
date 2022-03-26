@@ -44,6 +44,9 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String
+    },
+    file:{
+        type: Buffer
     }
 });
 

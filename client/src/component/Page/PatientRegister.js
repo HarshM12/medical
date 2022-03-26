@@ -15,7 +15,7 @@ const PatientRegister = () => {
     const navigate = useNavigate();
 
     const [Patient, setPatient] = useState({
-        fname: "", lname: "", date: "", gender: "", address: "", mobile: "", email: "", password: "", role: "Patient"
+        fname: "", lname: "", date: "", gender: "", address: "", mobile: "", email: "", password: "", role: "Patient" , file:""
     })
 
     let name, value;
@@ -27,14 +27,14 @@ const PatientRegister = () => {
 
     const PostDate = async (e) => {
         e.preventDefault();
-        const { fname, lname, date, gender, address, mobile, email, password, role } = Patient;
+        const { fname, lname, date, gender, address, mobile, email, password, role , file } = Patient;
         const res = await fetch('/PatientRegister', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                fname, lname, date, gender, address, mobile, email, password, role
+                fname, lname, date, gender, address, mobile, email, password, role , file
             })
         });
 
@@ -123,6 +123,8 @@ const PatientRegister = () => {
                     <TextField id="outlined-basic" multiline rows={5} name="address" label="address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.address} onChange={hendleInput} autoComplete="off" required />
                     <br />
                     <TextField id="outlined-basic" name="mobile" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.mobile} onChange={hendleInput} autoComplete="off" onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) {event.preventDefault();}}} required />
+                    <br />
+                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.file} onChange={hendleInput} name="file" /><br />
                     <br />
                     <TextField id="outlined-basic" name="email" label="Enter Your Email" type="email" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.email} onChange={hendleInput} autoComplete="off" required />
                     <br />

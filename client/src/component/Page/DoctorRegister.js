@@ -15,7 +15,7 @@ const DoctorRegister = () => {
     const navigate = useNavigate();
 
     const [Doctor, setDoctor] = useState({
-        fname: "", lname: "", category: "", gender: "", date: "", file: "", Address: "", Mobileno: "", email: "", password: "", role: "Doctor"
+        fname: "", lname: "", category: "", gender: "", date: "", file: "", Address: "", Mobileno: "", email: "", password: "", role: "Doctor" , p_img:""
     });
 
     const [categories, setCategories] = useState();
@@ -47,14 +47,14 @@ const DoctorRegister = () => {
 
     const PostDate = async (e) => {
         e.preventDefault();
-        const { fname, lname, date, gender, Address, Mobileno, email, password, category, file, role } = Doctor;
+        const { fname, lname, date, gender, Address, Mobileno, email, password, category, file, role , p_img } = Doctor;
         const res = await fetch('/DoctorRegister', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                fname, lname, date, gender, Address, Mobileno, email, password, category, file, role
+                fname, lname, date, gender, Address, Mobileno, email, password, category, file, role , p_img
             })
         });
         console.log(res)
@@ -153,6 +153,8 @@ const DoctorRegister = () => {
                     <br /><br />
                     <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Degree Document*</label>
                     <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.file} onChange={hendleInput} name="file" /><br />
+                    <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Profile Image*</label>
+                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.p_img} onChange={hendleInput} name="p_img" /><br />
                     <TextField id="outlined-basic" multiline rows={5} name="Address" label="Address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Address} onChange={hendleInput} required />
                     <br />
                     <TextField id="outlined-basic" name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput} onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }} required />

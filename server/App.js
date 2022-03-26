@@ -6,6 +6,7 @@ const app = express();
 const session = require('express-session');
 dotenv.config({ path: './config.env' });
 const MainController = require('./controller/MainController');
+const router = require("./router/auth");
 require('./db/conn');
 
 app.use(session({
@@ -37,7 +38,7 @@ app.get('/About', (req, res) => {
   req.session.viewcount += 1;
   res.send({ viewcount: req.session.viewcount })
 });
-app.get('/Blog', (req, res) => {
+app.get('/blog', (req, res) => {
   res.send('Hello World from a Blog')
 });
 app.get('/Contact', (req, res) => {
@@ -66,21 +67,7 @@ app.get('/PatientRegister', (req, res) => {
 });
 
 
-// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
-// // Access the session as req.session
-// app.get('/test', function(req, res, next) {
-//   if (req.session.views) {
-//     req.session.views++
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.views + '</p>')
-//     res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-//     res.end()
-//   } else {
-//     req.session.views = 1
-//     res.end('welcome to the session demo. refresh!')
-//   }
-// })
 
 app.use(function (req, res, next) {
   console.log('----------------');
@@ -93,6 +80,7 @@ app.use(function (req, res, next) {
     });
     app.post(`/${resource}/create`, function (req, res) {
       console.log("Method: create");
+      console.log("----------------------")
       console.log(resource);
       MainController.create(req, res, resource);
     });
@@ -112,80 +100,66 @@ app.use(function (req, res, next) {
       MainController.destroy(req, res, resource);
     });
 
-    app.get('/payment', function (req, res) {
-      const https = require('https');
-      /*
-      * import checksum generation utility
-      * You can get this utility from https://developer.paytm.com/docs/checksum/
-      */
-      const PaytmChecksum = require('./PaytmChecksum');
+    app.get('/zoom_signature', function (req, res) {
+      const KJUR = require('jsrsasign')
 
-      var paytmParams = {};
+      const iat = Math.round(new Date().getTime() / 1000)
+      const exp = iat + 60 * 60 * 2
 
-      paytmParams.body = {
-        "requestType": "Payment",
-        "mid": "9761708ab53d4c92a80a8bf31ad0c2e2",
-        "websiteName": "YOUR_WEBSITE_NAME",
-        "orderId": "ORDERID_98765",
-        "callbackUrl": "https://<callback URL to be used by merchant>",
-        "txnAmount": {
-          "value": "1.00",
-          "currency": "INR",
+      const oHeader = { alg: 'HS256', typ: 'JWT' }
+
+      const oPayload = {
+        app_key: process.env.ZOOM_VIDEO_SDK_KEY,
+        tpc: req.body.sessionName,
+        role_type: req.body.role,
+        user_identity: req.body.userIdentity,
+        session_key: req.body.sessionKey,
+        iat: iat,
+        exp: exp
+      }
+
+      const sHeader = JSON.stringify(oHeader)
+      const sPayload = JSON.stringify(oPayload)
+      const signature = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, process.env.ZOOM_VIDEO_SDK_SECRET)
+
+      res.json({
+        signature: signature
+      })
+    });
+
+    app.get('/create_zoom_meeting', function (req, res) {
+      var request = require('request');
+      var data = {
+        "topic": "TOPIC",
+        "type": "2",
+        "duration": "30",
+        "start_time": "2020-09-16T11:00:00",
+        "timezone": "Asia/Tokyo",
+        "password": "123456",
+        "agenda": "AGENDA"
+    };
+      var clientServerOptions = {
+        uri: 'https://api.zoom.us/v2/users/me/meetings',
+        body: JSON.stringify(data),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        "userInfo": {
-          "custId": "CUST_001",
-        },
-      };
-
-      /*
-      * Generate checksum by parameters we have in body
-      * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
-      */
-      PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), "8w6FUajw1QPDQZegHlkmHKxvZPFCifZW").then(function (checksum) {
-
-        paytmParams.head = {
-          "signature": checksum
-        };
-
-        var post_data = JSON.stringify(paytmParams);
-
-        var options = {
-
-          /* for Staging */
-          hostname: 'securegw-stage.paytm.in',
-
-          /* for Production */
-          // hostname: 'securegw.paytm.in',
-
-          port: 443,
-          path: '/theia/api/v1/initiateTransaction?mid=YOUR_MID_HERE&orderId=ORDERID_98765',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': post_data.length
-          }
-        };
-
-        var response = "";
-        var post_req = https.request(options, function (post_res) {
-          post_res.on('data', function (chunk) {
-            response += chunk;
-          });
-
-          post_res.on('end', function () {
-            console.log('Response: ', response);
-          });
-        });
-
-        post_req.write(post_data);
-        post_req.end();
+        auth: {
+          bearer: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Im9GX2pWOWxrUlVpeEROTmVRU1dsUmciLCJleHAiOjE3MTA2MDI4MjAsImlhdCI6MTY0NzQzOTExOH0.JIhYk_J80Hn1p_9tmJOgfnow9DqFPG41uB3bJbWDAU4"
+        }
+      }
+      request(clientServerOptions, function (error, response) {
+        console.log(error, response.body);
+        res.send(response.body);
+        return;
       });
+    });
 
-    })
   })
   next()
 })
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
-})
+});
