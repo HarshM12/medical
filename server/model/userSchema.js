@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
     },
     file:{
         type: Buffer
+    },
+    created_at:{
+        type: Date,
+        default: new Date()
     }
 });
 

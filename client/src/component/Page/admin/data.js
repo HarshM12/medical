@@ -48,7 +48,7 @@ export const Userdata = [
     },
     {
       name: 'Dec',
-      "Active User": 67,
+      "Active User": 10,
     },
 
   ];

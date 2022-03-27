@@ -420,8 +420,6 @@ async function send_email(appointment) {
         });
 }
 
-
-
 function create_zoom_meeting(appointment) {
     return new Promise(function (resolve, reject) {
         var request = require('request');

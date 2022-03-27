@@ -52,6 +52,10 @@ const DoctorSchema = new mongoose.Schema({
     status:{
         type: Boolean,
         default: false
+    },
+    created_at:{
+        type: Date,
+        default: new Date()
     }
 });
 

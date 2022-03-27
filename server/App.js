@@ -6,6 +6,8 @@ const app = express();
 const session = require('express-session');
 dotenv.config({ path: './config.env' });
 const MainController = require('./controller/MainController');
+const DashboardController = require("./controller/DashboardController");
+
 const router = require("./router/auth");
 require('./db/conn');
 
@@ -24,6 +26,8 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('./controller/DashboardController'));
+
 
 app.use(require('./router/auth'));
 
@@ -65,8 +69,6 @@ app.get('/Admin', (req, res) => {
 app.get('/PatientRegister', (req, res) => {
   res.send('Hello World from a Patient')
 });
-
-
 
 
 app.use(function (req, res, next) {
