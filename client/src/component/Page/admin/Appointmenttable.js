@@ -301,7 +301,7 @@ const Appointmenttable = () => {
                             </thead>
                             <tbody>
                                 {appointment_data && appointment_data.map((appointment) => {
-                                    let slot_time = slots[appointment.slot];
+                                    let slot_time = slots[appointment.slot-1];
                                     return (
                                         <tr>
                                             <td>{appointment._id}</td>

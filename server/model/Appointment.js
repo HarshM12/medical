@@ -32,6 +32,10 @@ const Appointment = new mongoose.Schema({
     },
     zoom_meeting_url : {
         type : String
+    },
+    created_at:{
+        type: Date,
+        default: new Date()
     }
 });
 

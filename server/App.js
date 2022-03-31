@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const express = require('express')
 const bodyParser = require('body-parser');
 const app = express();
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({limit:'50mb',extended:true}))
 const session = require('express-session');
 dotenv.config({ path: './config.env' });
 const MainController = require('./controller/MainController');
@@ -30,8 +32,8 @@ app.use(require('./controller/DashboardController'));
 
 
 app.use(require('./router/auth'));
-
 const PORT = process.env.PORT;
+
 
 app.get('/', (req, res) => {
   res.send('Hello World from a server')
@@ -160,6 +162,33 @@ app.use(function (req, res, next) {
 
   })
   next()
+})
+
+
+app.get('/api/img',async(req,res)=>{
+  const {cloudinary} = require("./utlis/cloudinary")
+  console.log("----fg")
+  const {resources} = await cloudinary.search.expression('folder:dev_img').sort_by('public_id','desc').max_results(1).execute();
+  console.log(resources)
+  const publicId = resources.map((file)=>file.url);
+  res.send(publicId)
+})
+
+
+app.post('/api/upload', async (req,res)=>{
+  try {
+    const {cloudinary} = require("./utlis/cloudinary")
+    const filestrem = req.body.data;
+    const  uploadedresponse  = await cloudinary.uploader.upload(filestrem,{
+      upload_preset:"dev_img"
+    })
+    console.log(uploadedresponse)
+    res.json(uploadedresponse);
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({err:"Invlid"})
+  }
+
 })
 
 app.listen(PORT, () => {

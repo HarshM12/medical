@@ -45,12 +45,13 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String
     },
-    file:{
-        type: Buffer
-    },
     created_at:{
         type: Date,
         default: new Date()
+    },
+    profile_url:{
+        type: String,
+        default: "https://res.cloudinary.com/dz4wlcxs5/image/upload/v1648735723/dev_img/user_profile_rwys5u.png"
     }
 });
 

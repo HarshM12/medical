@@ -13,9 +13,13 @@ import { useNavigate } from 'react-router-dom';
 const PatientRegister = () => {
 
     const navigate = useNavigate();
+    
+    const [fileinput , setfileinput] = useState('');
+    const [selectfile , setselectfile] = useState('');
+    const [preview , setpriview] = useState("");
 
     const [Patient, setPatient] = useState({
-        fname: "", lname: "", date: "", gender: "", address: "", mobile: "", email: "", password: "", role: "Patient" , file:""
+        fname: "", lname: "", date: "", gender: "", address: "", mobile: "", email: "", password: "", role: "Patient"
     })
 
     let name, value;
@@ -27,15 +31,22 @@ const PatientRegister = () => {
 
     const PostDate = async (e) => {
         e.preventDefault();
-        const { fname, lname, date, gender, address, mobile, email, password, role , file } = Patient;
+        const { fname, lname, date, gender, address, mobile, email, password, role  } = Patient;
+        let profile_url = "";
+        let data = {fname, lname, date, gender, address, mobile, email, password, role };
+        if(preview){
+            let result = await uploadimage(preview);
+            console.log("-----------------------------");
+            console.log(result);
+            console.log("-----------------------------");
+            data.profile_url = result;
+        }
         const res = await fetch('/PatientRegister', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                fname, lname, date, gender, address, mobile, email, password, role , file
-            })
+            body: JSON.stringify(data)
         });
 
         console.log(Patient)
@@ -48,8 +59,24 @@ const PatientRegister = () => {
         else {
             window.alert("Invalid Registration Details:");
             console.log("Invalid Registration Details:");
-        }
-
+        }         
+    }
+    const uploadimage = async (base64EncodedImage)=>{
+            console.log(base64EncodedImage)
+            try {
+                let res = await fetch('/api/upload',{
+                    method:"POST",
+                    body : JSON.stringify({data: base64EncodedImage}),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                })
+                const response = await res.json(); 
+                return response.url;
+            } catch (error) {
+                return error;
+                console.error(error);
+            }
     }
 
     const isNumber = (evt) => {
@@ -61,6 +88,21 @@ const PatientRegister = () => {
         return true;
 
     }
+
+
+    const hendlefileinput = (e)=>{
+        const file = e.target.files[0];
+        priviewfile(file)
+    }
+
+    const priviewfile = (file)=>{
+            const reader = new FileReader();
+            reader.readAsDataURL(file)
+            reader.onloadend = () =>{
+                setpriview(reader.result)
+            }
+    }
+     
 
     return (
         <>
@@ -124,7 +166,10 @@ const PatientRegister = () => {
                     <br />
                     <TextField id="outlined-basic" name="mobile" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.mobile} onChange={hendleInput} autoComplete="off" onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) {event.preventDefault();}}} required />
                     <br />
-                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.file} onChange={hendleInput} name="file" /><br />
+                    <TextField type="file" name="img" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} onChange={hendlefileinput} value={fileinput} /><br />
+                    {preview&& (
+                        <img src={preview} alt="choose file" style={{height:"250px",borderRadius: '25%',width:"290px",marginLeft:"270px",marginTop:"15px"}}></img>
+                    )}
                     <br />
                     <TextField id="outlined-basic" name="email" label="Enter Your Email" type="email" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.email} onChange={hendleInput} autoComplete="off" required />
                     <br />

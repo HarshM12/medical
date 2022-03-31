@@ -34,6 +34,7 @@
     "bootstrap-daterangepicker": "^3.1.0",
     "bootstrap-icons": "^1.8.1",
     "cloudinary": "^1.28.1",
+    "cloudinary-react": "^1.7.2",
     "express": "^4.17.2",
     "jquery": "^3.6.0",
     "material-ui-pickers": "^2.2.4",

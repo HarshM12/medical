@@ -21,6 +21,10 @@ const Patientpanel = () => {
 	const [appointment_data, setAppointmentData] = useState(0);
 	const [doctors, setDoctorData] = useState(0);
 	const [paymentData, setPaymentData] = useState("");
+	const [show, setShow] = useState(false);
+
+	console.log(appointment_data)
+    
 	const hendleInput = (e) => {
 		name = e.target.name;
 		value = e.target.value;
@@ -149,19 +153,7 @@ const Patientpanel = () => {
 			}
 		}
 	};
-
 	// Edit Appointment
-
-	const [Appointment_details, setAppointmentDetails] = useState(false);
-	var [edit_appointment, setUpdateAppointment] = useState({});
-	const [show, setShow] = useState(false);	
-	const EditAppointment = (Appointment_details) => {
-        console.log(JSON.stringify(Appointment_details));
-        setUpdateAppointment(Appointment_details);
-        setShow(true);
-    };
-
-
 
 
 	return (
@@ -323,7 +315,7 @@ const Patientpanel = () => {
 																<td>{appointment.mode}</td>
 																<td>
 																	<div className="btn-group">
-																		<button className="btn btn-outline-primary btn-sm ml-2" onClick={() => EditAppointment(Appointment_details)} ><i class="fa fa-pencil mr-1"></i></button>
+																		<button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button>
 																		<button className="btn btn-outline-danger btn-sm ml-2 " onClick={() => removeAppointment(appointment)}> <i class="fa fa-trash mr-1"></i></button>
 																	</div>
 																</td>
@@ -342,50 +334,7 @@ const Patientpanel = () => {
 			</div>
 
 			<br />
-			<Modal
-                            show={show}
-                            onHide={() => setShow(false)}
-                            dialogClassName="modal-dialog modal-md"
-                            aria-labelledby="example-custom-modal-styling-title"
-                        >
-                            <Modal.Header closeButton>
-                                <Modal.Title id="example-custom-modal-styling-title">
-                                    Edit Appointment
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <div className="tab-content profile-tab" id="mytab content">
-                                    <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" >
-                                        <div className="container">
-                                            <div className="row mt-3">
-                                                <div className="col-md-5">
-                                                    <label>Appointment Date</label>
-                                                </div>
-                                                <div className="col-md-7">
-                                                    <TextField id="standard-basic" type="date" onChange={(e) => setUpdateAppointment({ date: e.target.value })} value={edit_appointment && edit_appointment.date} className="form-control" variant="standard" autoComplete="off" placeholder="Enter First Name" />
-                                                </div>
-                                            </div>
-                                            <div className="row mt-3">
-                                                <div className="col-md-5">
-                                                    <label>Appointment Slot</label>
-                                                </div>
-                                                <div className="col-md-7">
-                                                    <TextField id="standard-basic" onChange={(e) => setUpdateAppointment({ slot: e.target.value })} value={edit_appointment && edit_appointment.slot} type="number" className="form-control" variant="standard" autoComplete="off" />
-                                                </div>
-                                            </div>
-											<div className="row">
-                                                <div className="col-md-4">
-                                                </div>
-                                                <div className="col-md-8">
-                                                <Button variant="outline-success">Save Change</Button>{' '}
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </Modal.Body>
-                        </Modal>
+			
 
 
 

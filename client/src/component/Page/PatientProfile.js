@@ -7,6 +7,7 @@ import '../Css/patientprofile.css'
 import { Button } from 'react-bootstrap';
 import { Modal } from "react-bootstrap";
 import UserProfile from "./UserProfile";
+import {Image, Video, Transformation} from 'cloudinary-react';
 
 const PatientProfile = () => {
     const [Payment, setpayment] = useState(false);
@@ -14,6 +15,7 @@ const PatientProfile = () => {
     const [Patient_details, setPatientDetails] = useState(false);
     const user_details = UserProfile.getName();
     var [edit_user, setEditUserData] = useState({});
+    const [imageIdS, setimageIds] = useState();
 
     const getPatientDetails = async () => {
         const res = await fetch('/patient/' + user_details.id, {
@@ -29,12 +31,27 @@ const PatientProfile = () => {
         if (result) {
             console.log(JSON.stringify(result));
             setPatientDetails(result);
-             console.log(JSON.stringify(Patient_details));
-
+            // console.log(JSON.stringify(Patient_details));
         } else {
             return false;
         }
     };
+    const loadimg = async () => {
+        try {
+            const res = await fetch('api/img', {
+                method: "GET",
+                headers: {
+                    credentials: "same-origin",
+                    "Content-Type": "application/json"
+                },
+            });
+            const data = await res.json();
+            setimageIds(data)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const EditProfile = (Patient_details) => {
         console.log(JSON.stringify(Patient_details));
         setEditUserData(Patient_details);
@@ -65,8 +82,10 @@ const PatientProfile = () => {
     useEffect(() => {
         console.log("executed only once!");
         getPatientDetails();
+        loadimg();
     }, []);
 
+    
     return (
         <>
             <Header />
@@ -96,14 +115,20 @@ const PatientProfile = () => {
             <br></br>
 
             <Card style={{ backgroundColor: "whitesmoke" }}>
-
-
                 <div className="container emp-profile">
                     <form method="">
                         <div className="row">
                             <div className="col-md-4">
-                                <img src={profilePic} alt="profile" style={{ borderRadius: "10px", height: "180px" }}></img>
-                                <div className="btn1 btn1--link" type="file" style={{ marginLeft: "-10px" }} >Update Profile Photo</div>
+                                {/* <img src={profilePic} alt="profile" style={{ borderRadius: "10px", height: "180px" }}></img> */}
+                                {/* {imageIdS && imageIdS.map((imageId, index) => (
+                                    <Image key={index} cloudName="HarshManiya" publicId={imageId} crop="scale" width="300" ></Image>
+                                ))
+
+                                } */}
+
+                                <Image src={Patient_details.profile_url} cloudName="HarshManiya" crop="scale" width="300" ></Image>
+
+                                {/* <div className="btn1 btn1--link" type="file" style={{ marginLeft: "-10px" }} >Update Profile Photo</div> */}
                             </div>
                             <div className="col-md-6">
                                 <div className="profile-head">
@@ -311,7 +336,7 @@ const PatientProfile = () => {
                                                     <label>Address</label>
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ address: e.target.value })} value={edit_user && edit_user.address}  className="form-control" variant="standard" autoComplete="off" />
+                                                    <TextField id="standard-basic" onChange={(e) => setEditUserData({ address: e.target.value })} value={edit_user && edit_user.address} className="form-control" variant="standard" autoComplete="off" />
                                                 </div>
                                             </div>
                                             <div className="row mt-3">
@@ -326,7 +351,7 @@ const PatientProfile = () => {
                                                 <div className="col-md-4">
                                                 </div>
                                                 <div className="col-md-8">
-                                                <Button variant="outline-success" onClick={(e) => UpdateProfile()}>Save Change</Button>{' '}
+                                                    <Button variant="outline-success" onClick={(e) => UpdateProfile()}>Save Change</Button>{' '}
                                                 </div>
                                             </div>
                                         </div>
