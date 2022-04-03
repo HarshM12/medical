@@ -53,7 +53,7 @@ const Reporttable = () => {
         get_appointment_slot();
     }, []);
 
-    return (
+    return ( 
         <>
             <div className="home">
                 <div className="featured" style={{ marginTop: "10px" }}>
@@ -62,6 +62,7 @@ const Reporttable = () => {
                         <center>
                             <Chart options={data.options} series={data.series} type="line" width="100%" height="300px"/>
                         </center>
+
                     </div>
                 </div>
             </div>

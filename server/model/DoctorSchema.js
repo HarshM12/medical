@@ -25,6 +25,7 @@ const DoctorSchema = new mongoose.Schema({
     },
     Mobileno: {
         type: Number,
+        maxlength:10,
         required:true,
     },
     email: {

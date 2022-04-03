@@ -8,18 +8,16 @@ import UserProfile from "./UserProfile";
 import '../Css/blog.css'
 import ReadMore from "./ReadMore";
 
-const id  = UserProfile
-console.error("Id"+ JSON.stringify(id))
+const id = UserProfile
+console.error("Id" + JSON.stringify(id))
 
 const DoctorBlog = () => {
     const Name = UserProfile.getName();
     console.log(Name.id);
     const [blog, setblog] = useState({
-        title: "", details: "", doctor: Name.id 
+        title: "", details: "", doctor: Name.id
     });
     console.log(JSON.stringify(blog));
-    console.log(blog.title)
-    console.log(blog.details)
     let name, value;
     const hendleInput = (e) => {
         name = e.target.name;
@@ -46,7 +44,6 @@ const DoctorBlog = () => {
             console.log("0----------------")
             console.log(JSON.stringify(response))
             console.log("0----------------")
-
             if (res.status === 400 || !response) {
                 console.log("Invalid");
             } else {
@@ -55,6 +52,7 @@ const DoctorBlog = () => {
             }
         }
     }
+
     return (
         <>
             <Header />
@@ -111,33 +109,9 @@ const DoctorBlog = () => {
                                 {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
                             </div>
                             <div className="blog_card_content">
-                                <h3>Here Comes The Blog Title.</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia provident voluptatem.</p>
+                                <h3>fgfg</h3>
+                                {/* <p>{d_blog.details}</p> */}
                                 <Link to='/ReadMore' >Read More</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-12">
-                        <div className="blog_card">
-                            <div className="blog_card_image">
-                                {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_2.png" alt=""> */}
-                            </div>
-                            <div className="blog_card_content">
-                                <h3>Here Comes The Blog Title.</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia provident voluptatem.</p>
-                                <a href="https://abhishekdana1999.github.io/Mywebsite/blog/login-page.html"><h6>Read More</h6></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-12">
-                        <div className="blog_card">
-                            <div className="blog_card_image">
-                                {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
-                            </div>
-                            <div className="blog_card_content">
-                                <h3>Here Comes The Blog Title.</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia provident voluptatem.</p>
-                                <a href="https://abhishekdana1999.github.io/Mywebsite/blog/login-page.html"><h6>Read More</h6></a>
                             </div>
                         </div>
                     </div>

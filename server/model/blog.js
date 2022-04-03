@@ -13,6 +13,10 @@ const blog = new mongoose.Schema({
         type:Schema.Types.ObjectId, 
         ref:'doctor_registration_tbls'
     },
+    created_at:{
+        type: Date,
+        default: new Date()
+    },
 });
 
 const BlogData = mongoose.model('blog_tables',blog)

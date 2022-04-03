@@ -22,9 +22,10 @@ const Patientpanel = () => {
 	const [doctors, setDoctorData] = useState(0);
 	const [paymentData, setPaymentData] = useState("");
 	const [show, setShow] = useState(false);
+	const [name1, setName] = useState('Mehul')
 
 	console.log(appointment_data)
-    
+
 	const hendleInput = (e) => {
 		name = e.target.name;
 		value = e.target.value;
@@ -36,6 +37,7 @@ const Patientpanel = () => {
 		// }
 		console.log(PatientAppointment);
 	}
+
 
 	const PostData = async (e, paymentdata) => {
 		e.preventDefault();
@@ -61,6 +63,52 @@ const Patientpanel = () => {
 				window.alert("Your Appointment Is Booked Sucessfully")
 				console.log("Your Appointment Is Booked Sucessfully")
 			}
+
+			// ------------------------------------Payment---------------------------------------------------
+			function loadScript(src) {
+				return new Promise((resolve) => {
+					const script = document.createElement('script')
+					script.src = src
+					script.onload = () => {
+						resolve(true)
+					}
+					script.onerror = () => {
+						resolve(false)
+					}
+					document.body.appendChild(script)
+				})
+			}
+			const res1 = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+			if (!res1) {
+				alert('Razorpay SDK failed to load. Are you online?')
+				return
+			}
+			const data1 = await fetch('http://localhost:5000/razorpay', { method: 'POST' }).then((t) =>
+				t.json()
+			)
+			console.log(data1)
+			const _DEV_ = document.domain === 'localhost'
+			const options = {
+				key: _DEV_ ? 'rzp_test_NPPkfvXO2baitE' : 'PRODUCTION_KEY',
+				currency: data1.currency,
+				amount: data1.amount.toString(),
+				order_id: data1.id,
+				name: 'Payment',
+				description: 'Thank you for Book Appointment.',
+				image: 'http://localhost:1337/logo.svg',
+				handler: function (paymentresponse) {
+					alert("Your payment Id Is : - " + paymentresponse.razorpay_payment_id)
+					alert("Your Order Id Is : -  " + paymentresponse.razorpay_order_id)
+				},
+				prefill: {
+					name1,
+					email: 'sdfdsjfh2@ndsfdf.com',
+					phone_number: '9899999999'
+				}
+			}
+			const paymentObject = new window.Razorpay(options)
+			paymentObject.open()
 		}
 	}
 
@@ -334,7 +382,7 @@ const Patientpanel = () => {
 			</div>
 
 			<br />
-			
+
 
 
 
