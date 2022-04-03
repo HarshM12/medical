@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const express = require('express')
 const bodyParser = require('body-parser');
 const app = express();
-app.use(express.json({limit: '50mb'}))
-app.use(express.urlencoded({limit:'50mb',extended:true}))
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 const session = require('express-session');
 dotenv.config({ path: './config.env' });
 const MainController = require('./controller/MainController');
 const DashboardController = require("./controller/DashboardController");
+
 
 const router = require("./router/auth");
 require('./db/conn');
@@ -29,7 +30,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('./controller/DashboardController'));
-
 
 app.use(require('./router/auth'));
 const PORT = process.env.PORT;
@@ -141,7 +141,7 @@ app.use(function (req, res, next) {
         "timezone": "Asia/Tokyo",
         "password": "123456",
         "agenda": "AGENDA"
-    };
+      };
       var clientServerOptions = {
         uri: 'https://api.zoom.us/v2/users/me/meetings',
         body: JSON.stringify(data),
@@ -165,31 +165,42 @@ app.use(function (req, res, next) {
 })
 
 
-app.get('/api/img',async(req,res)=>{
-  const {cloudinary} = require("./utlis/cloudinary")
+app.get('/api/img', async (req, res) => {
+  const { cloudinary } = require("./utlis/cloudinary")
   console.log("----fg")
-  const {resources} = await cloudinary.search.expression('folder:dev_img').sort_by('public_id','desc').max_results(1).execute();
+  const { resources } = await cloudinary.search.expression('folder:dev_img').sort_by('public_id', 'desc').max_results(1).execute();
   console.log(resources)
-  const publicId = resources.map((file)=>file.url);
+  const publicId = resources.map((file) => file.url);
   res.send(publicId)
 })
 
 
-app.post('/api/upload', async (req,res)=>{
+app.post('/api/upload', async (req, res) => {
   try {
-    const {cloudinary} = require("./utlis/cloudinary")
+    const { cloudinary } = require("./utlis/cloudinary")
     const filestrem = req.body.data;
-    const  uploadedresponse  = await cloudinary.uploader.upload(filestrem,{
-      upload_preset:"dev_img"
+    const uploadedresponse = await cloudinary.uploader.upload(filestrem, {
+      upload_preset: "dev_img"
     })
     console.log(uploadedresponse)
     res.json(uploadedresponse);
   } catch (error) {
     console.error(error)
-    res.status(500).json({err:"Invlid"})
+    res.status(500).json({ err: "Invlid" })
   }
 
 })
+
+// Payment gatway
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

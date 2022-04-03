@@ -7,6 +7,8 @@ import '../Css/patientprofile.css';
 import { Modal } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import UserProfile from "./UserProfile";
+import {Image, Video, Transformation} from 'cloudinary-react';
+
 
 const DoctorProfile = () => {
     const [show, setShow] = useState(false);
@@ -14,6 +16,8 @@ const DoctorProfile = () => {
     const [doctor_details, setDoctorDetails] = useState(false);
     const user_details = UserProfile.getName();
     var [edit_user, setEditUserData] = useState({});
+    const [imageIdS, setimageIds] = useState();
+
 
     const getDoctorDetails = async () => {
         const data = { status: true };
@@ -35,6 +39,21 @@ const DoctorProfile = () => {
             return false;
         }
     };
+    const loadimg = async () => {
+        try {
+            const res = await fetch('api/img', {
+                method: "GET",
+                headers: {
+                    credentials: "same-origin",
+                    "Content-Type": "application/json"
+                },
+            });
+            const data = await res.json();
+            setimageIds(data)
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const EditProfile = (doctor_details) => {
         console.log(JSON.stringify(doctor_details));
@@ -64,12 +83,13 @@ const DoctorProfile = () => {
             return false;
         }
     };
-
-
     useEffect(() => {
         console.log("executed only once!");
         getDoctorDetails();
+        loadimg();
     }, []);
+
+    console.log("-----------------------" + doctor_details.profile_url)
 
     return (
         <>
@@ -101,8 +121,7 @@ const DoctorProfile = () => {
                     <form method="">
                         <div className="row">
                             <div className="col-md-4">
-                                <img src={profilePic} alt="profile" style={{ borderRadius: "100px", height: "180px" }}></img>
-                                <div className="btn1 btn1--link" >Upload Profile Photos</div>
+                                <Image src={doctor_details.profile_url} style={{ borderRadius: "50%", height: "260px" }} cloudName="HarshManiya" crop="scale" width="300" ></Image>
                             </div>
                             <div className="col-md-6">
                                 <div className="profile-head">
@@ -207,53 +226,53 @@ const DoctorProfile = () => {
                                 <div className="tab-content profile-tab" id="mytab content">
                                     <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" >
                                         <div className="container">
-                                        <div className="row mt-3">
-                                            <div className="col-md-4">
-                                                <label>First Name</label>
+                                            <div className="row mt-3">
+                                                <div className="col-md-4">
+                                                    <label>First Name</label>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ fname: e.target.value })} value={edit_user && edit_user.fname} variant="standard" autoComplete="off" placeholder="Enter First Name" />
+                                                </div>
                                             </div>
-                                            <div className="col-md-8">
-                                                <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ fname: e.target.value })} value={edit_user && edit_user.fname} variant="standard" autoComplete="off" placeholder="Enter First Name" />
+                                            <div className="row mt-3">
+                                                <div className="col-md-4">
+                                                    <label>Last Name</label>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ lname: e.target.value })} value={edit_user && edit_user.lname} variant="standard" autoComplete="off" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row mt-3">
-                                            <div className="col-md-4">
-                                                <label>Last Name</label>
+                                            <div className="row mt-3">
+                                                <div className="col-md-4">
+                                                    <label>Date Of Birth</label>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <TextField id="standard-basic" className="form-control" type="date" onChange={(e) => setEditUserData({ date: e.target.value })} value={edit_user && edit_user.date} style={{ marginTop: "-5px" }} variant="standard" autoComplete="off" />
+                                                </div>
                                             </div>
-                                            <div className="col-md-8">
-                                                <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ lname: e.target.value })} value={edit_user && edit_user.lname} variant="standard" autoComplete="off" />
+                                            <div className="row mt-3">
+                                                <div className="col-md-4">
+                                                    <label>Address</label>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ Address: e.target.value })} value={edit_user && edit_user.Address} variant="standard" autoComplete="off" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row mt-3">
-                                            <div className="col-md-4">
-                                                <label>Date Of Birth</label>
+                                            <div className="row mt-3">
+                                                <div className="col-md-4">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ email: e.target.value })} value={edit_user && edit_user.email} variant="standard" autoComplete="off" />
+                                                </div>
                                             </div>
-                                            <div className="col-md-8">
-                                                <TextField id="standard-basic" className="form-control"  type="date" onChange={(e) => setEditUserData({ date: e.target.value })} value={edit_user && edit_user.date} style={{ marginTop: "-5px" }} variant="standard" autoComplete="off" />
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <Button variant="outline-success" onClick={(e) => UpdateProfile()}>Save Change</Button>{' '}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row mt-3">
-                                            <div className="col-md-4">
-                                                <label>Address</label>
-                                            </div>
-                                            <div className="col-md-8">
-                                                <TextField id="standard-basic" className="form-control"  onChange={(e) => setEditUserData({ Address: e.target.value })} value={edit_user && edit_user.Address} variant="standard" autoComplete="off" />
-                                            </div>
-                                        </div>
-                                        <div className="row mt-3">
-                                            <div className="col-md-4">
-                                                <label>Email</label>
-                                            </div>
-                                            <div className="col-md-8">
-                                                <TextField id="standard-basic" className="form-control" onChange={(e) => setEditUserData({ email: e.target.value })} value={edit_user && edit_user.email} variant="standard" autoComplete="off" />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                            </div>
-                                            <div className="col-md-8">
-                                                <Button variant="outline-success" onClick={(e) => UpdateProfile()}>Save Change</Button>{' '}
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>

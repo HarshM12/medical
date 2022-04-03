@@ -95,7 +95,26 @@ router.get('/dashboard/get_total_patient',(req,res)=>{
         console.log(result)
         res.send(result)
     });
-})
+});
+
+router.get('/dashboard/get_appointment_slot',(req,res)=>{
+    console.log("get appointment");
+    appointment = require(`../model/${schema_list['appointment']}`);
+    appointment.aggregate([{
+        $group: {
+            // Group by both month and year of the sale
+            _id:"$slot",            
+            // Count the no of sales
+            count: {
+                $sum: 1
+            }
+        }
+    },
+    ]).exec(function (err, result) {
+        res.send(result);
+    });
+});
+
 
 
 module.exports = router;

@@ -126,7 +126,7 @@ const PatientProfile = () => {
 
                                 } */}
 
-                                <Image src={Patient_details.profile_url} cloudName="HarshManiya" crop="scale" width="300" ></Image>
+                                <Image src={Patient_details.profile_url} style={{ borderRadius: "50%", height: "260px" }} cloudName="HarshManiya" crop="scale" width="300" ></Image>
 
                                 {/* <div className="btn1 btn1--link" type="file" style={{ marginLeft: "-10px" }} >Update Profile Photo</div> */}
                             </div>

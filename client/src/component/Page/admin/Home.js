@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../Css/admin/home.css'
 import Featureinfo from "./Featureinfo";
-import Charts from "./Charts";
 import Chart from "react-apexcharts";
 import { Userdata } from "./data";
 import Widgetsm from "./Widgetsm";
@@ -46,16 +45,16 @@ const Home = () => {
         }
     };
 
-    const setData = async(patient_data) => {
+    const setData = async (patient_data) => {
         console.log("-------- Set data -------");
         let year = new Date().getFullYear();
-        let p_data = [0,0,0,0,0,0,0,0,0,0,0,0];
+        let p_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         // console.log("Length" + patient_report);
         patient_data.forEach(result => {
             console.log("result:" + JSON.stringify(result));
-            if(result._id.year === year){
+            if (result._id.year === year) {
                 p_data[result._id.month - 1] = result.count ? result.count : 0
-            }            
+            }
         });
         console.log("Data:" + p_data);
         setPatientReportData(p_data);
@@ -102,16 +101,16 @@ const Home = () => {
             return false;
         }
     };
-    const setdoctorData = async(doctor_data) => {
+    const setdoctorData = async (doctor_data) => {
         console.log("-------- Set data -------");
         let year = new Date().getFullYear();
-        let d_data = [0,0,0,0,0,0,0,0,0,0,0,0];
+        let d_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         // console.log("Length" + patient_report);
         doctor_data.forEach(result => {
             console.log("result:" + JSON.stringify(result));
-            if(result._id.year === year){
+            if (result._id.year === year) {
                 d_data[result._id.month - 1] = result.count ? result.count : 0
-            }            
+            }
         });
         console.log("Data:" + d_data);
         setDoctorReportData(d_data);
@@ -120,16 +119,16 @@ const Home = () => {
         get_doctor_report();
     }, []);
 
-        // =========================Doctor report End==============================
+    // =========================Doctor report End==============================
 
 
     return (
         <>
             <div className="home">
                 <Featureinfo />
-                {/* <Charts data={Userdata} title="Total Active User" datakey="Active User" grid /> */}
                 <div className="featured mt-4">
                     <div className="featuredItem">
+                    <h4>Patient Report</h4>
                         <Chart
                             options={data.options}
                             series={data.series}
@@ -137,14 +136,15 @@ const Home = () => {
                         />
                     </div>
                     <div className="featuredItem">
-                    <Chart
+                        <h4>Doctor Report</h4>
+                        <Chart
                             options={doctor_data.options}
                             series={doctor_data.series}
                             type="bar"
                         />
                     </div>
                 </div>
-                
+
                 <div className="homeWidget">
                     <Widgetsm />
                     <WidgetLg />

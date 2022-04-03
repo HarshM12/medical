@@ -13,9 +13,12 @@ import { useNavigate } from 'react-router-dom';
 
 const DoctorRegister = () => {
     const navigate = useNavigate();
+    const [fileinput , setfileinput] = useState('');
+    const [selectfile , setselectfile] = useState('');
+    const [preview , setpriview] = useState("");
 
     const [Doctor, setDoctor] = useState({
-        fname: "", lname: "", category: "", gender: "", date: "", file: "", Address: "", Mobileno: "", email: "", password: "", role: "Doctor" , p_img:""
+        fname: "", lname: "", category: "", gender: "", date: "", file: "", Address: "", Mobileno: "", email: "", password: "", role: "Doctor"
     });
 
     const [categories, setCategories] = useState();
@@ -43,19 +46,23 @@ const DoctorRegister = () => {
         }
     };
 
-
-
     const PostDate = async (e) => {
         e.preventDefault();
-        const { fname, lname, date, gender, Address, Mobileno, email, password, category, file, role , p_img } = Doctor;
+        const { fname, lname, date, gender, Address, Mobileno, email, password, category, file, role  } = Doctor;
+        let data = {fname, lname, date, gender, Address, Mobileno, email, password, role,category, file };
+        if(preview){
+            let result = await uploadimage(preview);
+            console.log("-----------------------------");
+            console.log(result);
+            console.log("-----------------------------");
+            data.profile_url = result;
+        }
         const res = await fetch('/DoctorRegister', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                fname, lname, date, gender, Address, Mobileno, email, password, category, file, role , p_img
-            })
+            body: JSON.stringify(data)
         });
         console.log(res)
         const xyz = await res.json();
@@ -70,6 +77,36 @@ const DoctorRegister = () => {
         }
 
     }
+    const hendlefileinput = (e)=>{
+        const file = e.target.files[0];
+        priviewfile(file)
+    }
+
+    const priviewfile = (file)=>{
+            const reader = new FileReader();
+            reader.readAsDataURL(file)
+            reader.onloadend = () =>{
+                setpriview(reader.result)
+            }
+    }
+
+    const uploadimage = async (base64EncodedImage)=>{
+        console.log(base64EncodedImage)
+        try {
+            let res = await fetch('/api/upload',{
+                method:"POST",
+                body : JSON.stringify({data: base64EncodedImage}),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+            const response = await res.json(); 
+            return response.url;
+        } catch (error) {
+            return error;
+            console.error(error);
+        }
+}
 
     useEffect(() => {
         console.log("executed only once!");
@@ -154,7 +191,10 @@ const DoctorRegister = () => {
                     <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Degree Document*</label>
                     <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.file} onChange={hendleInput} name="file" /><br />
                     <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Profile Image*</label>
-                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.p_img} onChange={hendleInput} name="p_img" /><br />
+                   <TextField type="file" name="img" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} onChange={hendlefileinput} value={fileinput} /><br />
+                    {preview&& (
+                        <img src={preview} alt="choose file" style={{height:"250px",borderRadius: '25%',width:"290px",marginLeft:"270px",marginTop:"15px"}}></img>
+                    )}
                     <TextField id="outlined-basic" multiline rows={5} name="Address" label="Address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Address} onChange={hendleInput} required />
                     <br />
                     <TextField id="outlined-basic" name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput} onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }} required />

@@ -43,9 +43,6 @@ const DoctorSchema = new mongoose.Schema({
         type:Buffer,
         required:true
     },
-    p_img:{
-        type:Buffer
-    },
     role: {
         type: String
     },
@@ -56,6 +53,10 @@ const DoctorSchema = new mongoose.Schema({
     created_at:{
         type: Date,
         default: new Date()
+    },
+    profile_url:{
+        type: String,
+        default: "https://res.cloudinary.com/dz4wlcxs5/image/upload/v1648735723/dev_img/user_profile_rwys5u.png"
     }
 });
 
