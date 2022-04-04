@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from 'react-router-dom';
 import { TextField, Card } from "@mui/material";
@@ -8,12 +8,14 @@ import UserProfile from "./UserProfile";
 import '../Css/blog.css'
 import ReadMore from "./ReadMore";
 
+
 const id = UserProfile
 console.error("Id" + JSON.stringify(id))
 
 const DoctorBlog = () => {
     const Name = UserProfile.getName();
     console.log(Name.id);
+    const [blogs, setblogs] = useState("")
     const [blog, setblog] = useState({
         title: "", details: "", doctor: Name.id
     });
@@ -30,7 +32,6 @@ const DoctorBlog = () => {
         const data = blog;
         if (data.title == "" || data.details == "") {
             window.alert("Please FillUp Data")
-
         } else {
             const res = await fetch('/blog/create', {
                 method: "POST",
@@ -39,7 +40,6 @@ const DoctorBlog = () => {
                 },
                 body: JSON.stringify(data)
             });
-
             const response = await res.json();
             console.log("0----------------")
             console.log(JSON.stringify(response))
@@ -52,6 +52,57 @@ const DoctorBlog = () => {
             }
         }
     }
+
+    const getBlogData = async () => {
+        console.log("start get data............");
+        const res = await fetch('/blog', {
+            credentials: "same-origin",
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log("test");
+            console.log(result[0]);
+            setblogs(result);
+
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getBlogData();
+    }, []);
+
+    // remove Blog
+
+    const removeBlog = async (blogs) => {
+		console.log(blogs._id);
+		if (window.confirm("Are you sure you want to Delete Blog?")) {
+			let data = { id: blogs._id };
+			const res = await fetch(`/blog/${blogs._id}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+			const response = await res.json();
+			console.log(response);
+			if (res.status === 200 || !response) {
+				getBlogData();
+			}
+			else {
+				console.log("Fail");
+			}
+		}
+	};  
+
+
 
     return (
         <>
@@ -103,18 +154,28 @@ const DoctorBlog = () => {
                 <h1 className="m-5 text-center">MY BLOGS</h1>
                 <hr />
                 <div className="row">
-                    <div className="col-lg-4 col-md-6 col-sm-12">
-                        <div className="blog_card">
-                            <div className="blog_card_image">
-                                {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
-                            </div>
-                            <div className="blog_card_content">
-                                <h3>fgfg</h3>
-                                {/* <p>{d_blog.details}</p> */}
-                                <Link to='/ReadMore' >Read More</Link>
-                            </div>
-                        </div>
-                    </div>
+                    {blogs && blogs.map((d_blog) => {
+                        return (
+                            <>
+                                <div className="col-lg-4 col-md-6 col-sm-12">
+                                    <div className="blog_card">
+                                        <div className="blog_card_image">
+                                            {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
+                                        </div>
+                                        <div className="blog_card_content">
+                                            <h1>{d_blog.title}</h1>
+                                            <p>{d_blog.details}</p>
+                                            {/* <p>{d_blog.created_at}</p> */}
+                                            <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button>
+                                            <button className="btn btn-outline-danger btn-sm ml-2 " onClick={() => removeBlog(d_blog)}> <i class="fa fa-trash mr-1"></i></button><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    })
+
+                    }
                 </div>
             </div>
 

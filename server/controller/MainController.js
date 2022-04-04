@@ -133,16 +133,16 @@ function get_output(req, res, resource) {
             break;
 
         case "blog":
-            if (user.role == "Doctor") {
-                console.log("default...");
+            model = get_model(resource);
+            if (resource) {
+                console.log("Blog...");
                 model = get_model(resource);
-                model.find(req.query).populate('doctor').
+                model.find(req.querys).populate('doctor').
                     exec(function (err, result) {
                         // if (err) return handleError(err);
                         console.log(JSON.stringify(result));
                         res.send(result);
                     });
-
             } else {
                 console.log("default...");
                 model = get_model(resource);

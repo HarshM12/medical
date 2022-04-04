@@ -48,9 +48,9 @@ app.get('/About', (req, res) => {
   req.session.viewcount += 1;
   res.send({ viewcount: req.session.viewcount })
 });
-app.get('/blog', (req, res) => {
-  res.send('Hello World from a Blog')
-});
+// app.get('/blog', (req, res) => {
+//   res.send('Hello World from a Blog')
+// });
 app.get('/Contact', (req, res) => {
   res.send('Hello World from a Contact')
 });

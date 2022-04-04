@@ -22,7 +22,7 @@ const Patientpanel = () => {
 	const [doctors, setDoctorData] = useState(0);
 	const [paymentData, setPaymentData] = useState("");
 	const [show, setShow] = useState(false);
-	const [name1, setName] = useState('Mehul')
+	const [name1, setName] = useState('')
 
 	console.log(appointment_data)
 
@@ -103,8 +103,8 @@ const Patientpanel = () => {
 				},
 				prefill: {
 					name1,
-					email: 'sdfdsjfh2@ndsfdf.com',
-					phone_number: '9899999999'
+					email: '',
+					phone_number: ''
 				}
 			}
 			const paymentObject = new window.Razorpay(options)

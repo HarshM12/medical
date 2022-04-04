@@ -3,6 +3,7 @@ import Chart from "react-apexcharts";
 
 const Reporttable = () => {
     const [appoinment_report_data, setAppointmentReportData] = useState();
+    console.log(appoinment_report_data)
     const slots = ["9:00","9:30","10:00","10:30", "11:00","11:30", "12:00", "1:00", "1:30", "2:00", "2:30", "3:00","3:30", "4:00", "4:30", "5:00"];
     const [values, setValues] = useState();
     const data = {
@@ -19,7 +20,10 @@ const Reporttable = () => {
                 name: "Total Appointment",
                 data: values
             }
-        ]    };
+        ],   
+        colors:['#F44336', '#E91E63', '#9C27B0']
+
+     };
 
     const get_appointment_slot = async () => {
         const res = await fetch('/dashboard/get_appointment_slot', {
@@ -60,9 +64,8 @@ const Reporttable = () => {
                     <div className="featuredItem">
                         <h3>Appointment Report</h3>
                         <center>
-                            <Chart options={data.options} series={data.series} type="line" width="100%" height="300px"/>
+                            <Chart options={data.options} series={data.series} type="area" width="100%" height="300px"/>
                         </center>
-
                     </div>
                 </div>
             </div>

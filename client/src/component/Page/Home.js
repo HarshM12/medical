@@ -18,10 +18,9 @@ import blog3 from '../../img/blog/blog_3.jpg';
 import person3 from '../../img/person/person_3.jpg';
 import Footer from "./Footer";
 import { Button } from 'reactstrap';
-
-
 const Home = () => {
     const [doctors, setdoctor] = useState(0);
+    const [blogs, setblogs] = useState("")
 
     const getdoctor = async (doctor) => {
         console.log("start get data............");
@@ -47,6 +46,33 @@ const Home = () => {
         console.log("executed only once!");
         getdoctor();
     }, []);
+
+    const getBlogData = async () => {
+        console.log("start get data............");
+        const res = await fetch('/blog', {
+            credentials: "same-origin",
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            console.log("test");
+            console.log(result[0]);
+            setblogs(result);
+
+        } else {
+            return false;
+        }
+    };
+    useEffect(() => {
+        console.log("executed only once!");
+        getBlogData();
+    }, []);
+
 
     return (
         <>
@@ -181,92 +207,37 @@ const Home = () => {
             </div>
 
             {/* Blog Selection */}
-
-            <div className="page-section bg-light">
-                <div className="container">
-                    <h1 className="text-center wow fadeInUp">Blog Section</h1>
-                    <div className="row mt-5">
-                        <div className="col-lg-4 py-2 wow zoomIn">
-                            <div className="card-blog">
-                                <div className="header">
-                                    <div className="post-category">
-                                        <a href="#">Covid19</a>
-                                    </div>
-                                    <a href="blog-details.html" className="post-thumb">
-                                        <img src={Blog1} alt="" />
-                                    </a>
-                                </div>
-                                <div className="body">
-                                    <h5 className="post-title"><a href="blog-details.html">List of Countries without Coronavirus case</a></h5>
-                                    <div className="site-info">
-                                        <div className="avatar mr-2">
-                                            <div className="avatar-img">
-                                                <img src={person1} alt="" />
-                                            </div>
-                                            <span>Dr.Ridhi Nakrani</span>
+            <div className="container">
+                <h1 className="m-5 text-center">Blog Section</h1>
+                <hr />
+                <div className="row">
+                    {blogs && blogs.map((d_blog) => {
+                        return (
+                            <>
+                                <div className="col-lg-4 col-md-6 col-sm-12">
+                                    <div className="blog_card">
+                                        <div className="blog_card_image">
+                                            {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
                                         </div>
-                                        <span className="mai-time"></span> 1 week ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 py-2 wow zoomIn">
-                            <div className="card-blog">
-                                <div className="header">
-                                    <div className="post-category">
-                                        <a href="#">Covid19</a>
-                                    </div>
-                                    <a href="blog-details.html" className="post-thumb">
-                                        <img src={blog2} alt="" />
-                                    </a>
-                                </div>
-                                <div className="body">
-                                    <h5 className="post-title"><a href="blog-details.html">Recovery Room: News beyond the pandemic</a></h5>
-                                    <div className="site-info">
-                                        <div className="avatar mr-2">
-                                            <div className="avatar-img">
-                                                <img src={person2} alt="" />
-                                            </div>
-                                            <span>Dr.jainm Vora</span>
-                                        </div>
-                                        <span className="mai-time"></span> 4 weeks ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 py-2 wow zoomIn">
-                            <div className="card-blog">
-                                <div className="header">
-                                    <div className="post-category">
-                                        <a href="#">Covid19</a>
-                                    </div>
-                                    <a href="blog-details.html" className="post-thumb">
-                                        <img src={blog3} alt="" />
-                                    </a>
-                                </div>
-                                <div className="body">
-                                    <h5 className="post-title"><a href="blog-details.html">What is the impact of eating too much sugar?</a></h5>
-                                    <div className="site-info">
-                                        <div className="avatar mr-2">
-                                            <div className="avatar-img">
-                                                <img src={person3} alt="" />
-                                            </div>
-                                            <span>Dr.Nilam patel </span>
-                                        </div>
-                                        <span className="mai-time"></span> 2 months ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        <div className="blog_card_content">
+                                            <h3>{d_blog.title}</h3>
+                                            <p>{d_blog.details}</p>
+                                            <Link to='/ReadMore' >Read More</Link>
 
-                        <div className="col-12 text-center mt-4 wow zoomIn">
-                            <Link to="#" className="btn btn-primary">Read More</Link>
-                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    })
 
-                    </div>
+                    }
                 </div>
             </div>
 
+
+
+           
             {/* contact with as */}
 
             <div class="page-section">
