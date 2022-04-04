@@ -19,10 +19,11 @@ const Patientpanel = () => {
 	})
 	let name, value;
 	const [appointment_data, setAppointmentData] = useState(0);
+	const [booked_appointment, setBookedAppointment] = useState(0);
 	const [doctors, setDoctorData] = useState(0);
 	const [paymentData, setPaymentData] = useState("");
 	const [show, setShow] = useState(false);
-	const [name1, setName] = useState('')
+	const [name1, setName] = useState('');
 
 	console.log(appointment_data)
 
@@ -36,6 +37,9 @@ const Patientpanel = () => {
 		setPatientAppointment({ ...PatientAppointment, [name]: value });
 		// }
 		console.log(PatientAppointment);
+		if(name == "date"){
+			get_booked_appointment(e.target.value);			
+		}
 	}
 
 
@@ -43,8 +47,7 @@ const Patientpanel = () => {
 		e.preventDefault();
 		const data = PatientAppointment;
 		if (data.doctor == "" || data.date == "" || data.slot == "" || data.mode == "" || data.symptoms == "") {
-			window.alert("Please FillUp Data")
-
+			window.alert("Please FillUp Data");
 		} else {
 			data.patient = UserProfile.getName().id;
 			const res = await fetch('/appointment/create', {
@@ -111,6 +114,22 @@ const Patientpanel = () => {
 			paymentObject.open()
 		}
 	}
+
+	const get_booked_appointment = async(date) => {
+		const res = await fetch('/get_booked_slots?appointment_date='+ date.toString(), {
+			credentials: "same-origin",
+			method: "GET",
+			headers: {
+				Accept: 'application/json',
+				"Content-Type": "application/json"
+			},
+		});
+		let result = await res.json();
+		console.log(result)
+		if (result) {
+			setBookedAppointment(result);
+		}
+	};
 
 
 	const getAppointmentData = async () => {
@@ -241,7 +260,7 @@ const Patientpanel = () => {
 							<h1 className="mb-2" style={{ textAlign: "center" }}>Book Your Appointment Now</h1>
 							{/* < button onClick={makePayment}>Pay Now</button > */}
 							<form method="POST" style={{ marginLeft: "70px", marginTop: "15px" }} >
-								<FormControl variant="standard" style={{ width: "80%" }}>
+								<FormControl variant="standard" style={{ width: "80%" }} >
 									<InputLabel id="demo-simple-select-standard-label">Select Doctor</InputLabel>
 									<Select
 										labelId="demo-simple-select-standard-label"
@@ -270,6 +289,7 @@ const Patientpanel = () => {
 									style={{ width: "80%" }}
 									value={PatientAppointment.date}
 									onChange={hendleInput} required
+									disabled={!PatientAppointment.doctor}
 									InputProps={{
 										inputProps: {
 											min: new Date().toISOString().split('T')[0],
@@ -290,12 +310,13 @@ const Patientpanel = () => {
 									>
 										{(() => {
 											const options = [];
+											const disabled = [2,3];
 											for (let i = 0; i < slots.length; i++) {
 												if (i == 6 || i == 7) {
 													continue;
 												} else {
 													options.push(
-														<MenuItem value={i + 1} id={slots[i].start_time}>{`${slots[i].index} ---- ${slots[i].start_time} to ${slots[i].end_time} `}</MenuItem>
+														<MenuItem value={i + 1} id={slots[i].start_time} disabled={booked_appointment && booked_appointment.indexOf(i+1) !== -1}>{`${slots[i].index} ---- ${slots[i].start_time} to ${slots[i].end_time} `}</MenuItem>
 													);
 												}
 											}

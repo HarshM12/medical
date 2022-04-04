@@ -151,6 +151,8 @@ const Doctortable = () => {
         getCategory();
     }, []);
 
+    // photo
+
 
     return (
         <>

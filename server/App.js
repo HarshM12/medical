@@ -255,7 +255,7 @@ app.post('/razorpay', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

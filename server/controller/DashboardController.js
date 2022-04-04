@@ -115,6 +115,17 @@ router.get('/dashboard/get_appointment_slot',(req,res)=>{
     });
 });
 
+router.get('/get_booked_slots',(req,res)=>{
+    appointment = require(`../model/${schema_list['appointment']}`);
+    console.log(req.query);
+    appointment.find({date: req.query.appointment_date}).exec(function (err, result) {
+        let slot_list  = [];
+        result.forEach(element => {
+            slot_list.push(element.slot);
+        });
+        res.send(slot_list);
+    });
+});
 
 
 module.exports = router;
