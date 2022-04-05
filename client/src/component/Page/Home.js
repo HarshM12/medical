@@ -222,7 +222,7 @@ const Home = () => {
                                         <div className="blog_card_content">
                                             <h3 style={{marginTop:"-25px"}}><strong>{d_blog.title}</strong></h3>
                                             <p>{d_blog.details}</p>
-                                            <p>Dr.{d_blog.doctor.fname}{d_blog.doctor.lname}</p>
+                                            <p style={{color:"black"}}>-Dr.<strong>{d_blog.doctor.fname}{d_blog.doctor.lname}</strong></p>
                                             <Link to='/ReadMore' >Read More</Link>
 
                                         </div>
