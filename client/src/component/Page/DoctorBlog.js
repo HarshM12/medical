@@ -163,7 +163,7 @@ const DoctorBlog = () => {
                                             {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
                                         </div>
                                         <div className="blog_card_content">
-                                            <h1>{d_blog.title}</h1>
+                                            <h3 style={{marginTop:"-25px"}}><strong> {d_blog.title}</strong></h3>
                                             <p>{d_blog.details}</p>
                                             {/* <p>{d_blog.created_at}</p> */}
                                             <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button>

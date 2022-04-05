@@ -137,7 +137,7 @@ function get_output(req, res, resource) {
             if (resource) {
                 console.log("Blog...");
                 model = get_model(resource);
-                model.find(req.querys).populate('doctor').
+                model.find(req.query).populate('doctor').
                     exec(function (err, result) {
                         // if (err) return handleError(err);
                         console.log(JSON.stringify(result));

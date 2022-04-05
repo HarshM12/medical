@@ -49,7 +49,7 @@ const Doctor = () => {
                 <div className="container">
 
 
-                    <Link className="navbar-brand" to="/"><span className="text-primary">Virtual </span>-Medical Home</Link>
+                    <Link className="navbar-brand" to="/"><span className="text-primary">Virtual </span>-Medical <span className="text-primary"> Home</span></Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

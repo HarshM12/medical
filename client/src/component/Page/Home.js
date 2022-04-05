@@ -81,7 +81,7 @@ const Home = () => {
                 <div className="container">
 
 
-                    <Link className="navbar-brand" to="#"><span className="text-primary">Virtual</span>-Medical Home</Link>
+                    <Link className="navbar-brand" to="#"><span className="text-primary">Virtual</span>-Medical<span className="text-primary"> Home</span></Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -220,7 +220,7 @@ const Home = () => {
                                             {/* <img src="https://abhishekdana1999.github.io/Mywebsite/img/blog_1.png" alt=""> */}
                                         </div>
                                         <div className="blog_card_content">
-                                            <h3>{d_blog.title}</h3>
+                                            <h3 style={{marginTop:"-25px"}}><strong>{d_blog.title}</strong></h3>
                                             <p>{d_blog.details}</p>
                                             <Link to='/ReadMore' >Read More</Link>
 
