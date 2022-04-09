@@ -160,7 +160,7 @@ const Doctortable = () => {
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
                         <h1>Doctor List</h1>
-                        <div className="row mt-4 ml-2">
+                        {/* <div className="row mt-4 ml-2">
                             <div className="col-md-6 mt-4">
                                 <FormControl style={{ width: "50%" }}>
                                     <InputLabel id="demo-simple-select-label">Search Doctor</InputLabel>
@@ -202,7 +202,7 @@ const Doctortable = () => {
                                     </Select>
                                 </FormControl>
                             </div>
-                        </div>
+                        </div> */}
 
 
                         <table className="table align-middle mt-3">

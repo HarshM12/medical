@@ -86,6 +86,17 @@ router.get('/dashboard/get_total_doctor',(req,res)=>{
     });
 })
 
+router.get('/dashboard/get_total_payment',(req,res)=>{
+    console.log("Total Appointment")
+    appointment = require(`../model/${schema_list['appointment']}`);
+    appointment.count({}, function(error, numOfDocs){
+        if(error) return callback(error);
+        let result = numOfDocs * 200
+        console.log(result)
+        res.send(JSON.stringify(result))
+    });
+})
+
 router.get('/dashboard/get_total_patient',(req,res)=>{
     console.log("Total Doctor")
     patient = require(`../model/${schema_list['patient']}`);
@@ -112,6 +123,32 @@ router.get('/dashboard/get_appointment_slot',(req,res)=>{
     },
     ]).exec(function (err, result) {
         res.send(result);
+    });
+});
+
+router.get('/dashboard/get_appointment_by_doctors',(req,res)=>{
+    console.log("get appointment");
+    appointment = require(`../model/${schema_list['appointment']}`);
+    doctor = require(`../model/${schema_list['doctor']}`);
+    let data_list = [];
+    doctor.find({}).exec(async function(err, result) {
+        // let data = JSON.parse(JSON.stringify(result));
+        await result.forEach(async doctor => {
+            console.log("Doctor:" + doctor._id);
+            await appointment.find({doctor: doctor._id}).exec(async function(err, total){
+                let data = JSON.parse(JSON.stringify(doctor));
+                data.total_appointment = total.length;
+                console.log("id:" + doctor._id);
+                console.log("Doctor:" + total.length);
+                data_list.push(data);
+                console.log("len:" + data_list.length);
+                if(result.length == data_list.length){
+                    res.send(data_list);
+                }
+            })      
+            // res.send({});
+        });
+        // res.send(data)
     });
 });
 

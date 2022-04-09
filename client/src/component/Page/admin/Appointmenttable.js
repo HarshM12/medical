@@ -224,7 +224,7 @@ const Appointmenttable = () => {
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
                         <h1>Appointment Details</h1>
-                        <div className="row mt-4">
+                        {/* <div className="row mt-4">
                             <div className="col-md-4">
                                 <FormControl style={{ width: "80%" }}>
                                     <InputLabel id="demo-simple-select-label">Search Doctor</InputLabel>
@@ -286,7 +286,7 @@ const Appointmenttable = () => {
                                 </FormControl>
                             </div>
 
-                        </div>
+                        </div> */}
                         <table class="table align-middle text-center">
                             <thead>
                                 <tr>
@@ -312,7 +312,7 @@ const Appointmenttable = () => {
                                             <td>{appointment.mode}</td>
                                             <td>
                                                 <div className="btn-group">
-                                                    <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button>
+                                                    {/* <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button> */}
                                                     <button className="btn btn-outline-danger btn-sm " onClick={() => removeAppointment(appointment)}> <i class="fa fa-trash mr-1"></i></button>
                                                 </div>
                                             </td>

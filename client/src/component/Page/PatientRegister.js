@@ -166,6 +166,7 @@ const PatientRegister = () => {
                     <br />
                     <TextField id="outlined-basic" name="mobile" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Patient.mobile} onChange={hendleInput} autoComplete="off" onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) {event.preventDefault();}}} required />
                     <br />
+                    <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Profile Image*</label><br/>
                     <TextField type="file" name="img" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} onChange={hendlefileinput} value={fileinput} /><br />
                     {preview&& (
                         <img src={preview} alt="choose file" style={{height:"250px",borderRadius: '25%',width:"290px",marginLeft:"270px",marginTop:"15px"}}></img>

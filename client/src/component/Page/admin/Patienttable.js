@@ -91,7 +91,7 @@ const Patienttable = () => {
                 <div className="featured" style={{ marginTop: "10px" }}>
                     <div className="featuredItem">
                         <h1>Patient List</h1>
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-md-6 mt-4">
                                 <FormControl style={{ width: "50%" }}>
                                     <InputLabel id="demo-simple-select-standard-label">Search</InputLabel>
@@ -127,7 +127,7 @@ const Patienttable = () => {
                                 </FormControl>
                             </div>
 
-                        </div>
+                        </div> */}
                         <table class="table align-middle text-center">
                             <thead>
                                 <tr>

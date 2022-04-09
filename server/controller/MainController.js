@@ -132,7 +132,11 @@ function get_output(req, res, resource) {
             }
             break;
 
-        case "blog":
+           case "blog":
+            //    const blog = req.session.user_details;
+               const b_query = req.query;            
+               console.log("000000000444444444444444444440")
+               console.log(b_query);
             model = get_model(resource);
             if (resource) {
                 console.log("Blog...");

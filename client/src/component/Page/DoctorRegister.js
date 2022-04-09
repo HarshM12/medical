@@ -197,7 +197,7 @@ const DoctorRegister = () => {
                     )}
                     <TextField id="outlined-basic" multiline rows={5} name="Address" label="Address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Address} onChange={hendleInput} required />
                     <br />
-                    <TextField id="outlined-basic"   name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput } onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }}  required />
+                    <TextField id="outlined-basic" type="tel"   name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput } onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }} required />
                     <br />
                     <TextField id="outlined-basic" name="email" label="Enter Your Email" type="email" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.email} onChange={hendleInput} required />
                     <br />

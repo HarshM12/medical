@@ -165,8 +165,7 @@ const DoctorBlog = () => {
                                         <div className="blog_card_content">
                                             <h3 style={{marginTop:"-25px"}}><strong> {d_blog.title}</strong></h3>
                                             <p>{d_blog.details}</p>
-                                            {/* <p>{d_blog.created_at}</p> */}
-                                            <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button>
+                                            {/* <button className="btn btn-outline-primary btn-sm ml-2" ><i class="fa fa-pencil mr-1"></i></button> */}
                                             <button className="btn btn-outline-danger btn-sm ml-2 " onClick={() => removeBlog(d_blog)}> <i class="fa fa-trash mr-1"></i></button><br/>
                                         </div>
                                     </div>
