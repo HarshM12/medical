@@ -21,6 +21,38 @@ import { Button } from 'reactstrap';
 const Home = () => {
     const [doctors, setdoctor] = useState(0);
     const [blogs, setblogs] = useState("")
+    const [contact, setcontact] = useState({
+        name:"" , email:"" , subject: "" , message:""
+    });
+    let name, value;
+    const hendleInput = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setcontact({ ...contact, [name]: value });
+    }
+    console.log(contact)
+    const contactAs = async () => {
+        console.log("start get data............");
+        const res = await fetch('/contact/create', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(contact)
+        });
+        let result = await res.json();
+        console.log(result)
+        if (result) {
+            window.alert("We Will get Back To You Soon...")
+            setcontact({
+                name: " " , email: " " , subject : " " , message : " "
+            })
+
+        }else {
+            window.alert("Please Fill Up Data");
+
+        }
+    };
 
     const getdoctor = async (doctor) => {
         console.log("start get data............");
@@ -251,22 +283,22 @@ const Home = () => {
                         <div class="row mb-3">
                             <div class="col-sm-6 py-2 wow fadeInLeft">
                                 <label for="fullName">Name</label>
-                                <input type="text" id="fullName" class="form-control" placeholder="Full name.." />
+                                <input type="text" id="fullName" class="form-control" placeholder="Full name.." name="name" value={contact.name} onChange={hendleInput} />
                             </div>
                             <div class="col-sm-6 py-2 wow fadeInRight">
                                 <label for="emailAddress">Email</label>
-                                <input type="text" id="emailAddress" class="form-control" placeholder="Email address.." />
+                                <input type="text" id="emailAddress" class="form-control" placeholder="Email address.." name="email" value={contact.email} onChange={hendleInput} />
                             </div>
                             <div class="col-12 py-2 wow fadeInUp">
                                 <label for="subject">Subject</label>
-                                <input type="text" id="subject" class="form-control" placeholder="Enter subject.." />
+                                <input type="text" id="subject" class="form-control" placeholder="Enter subject.." name="subject" value={contact.subject} onChange={hendleInput} />
                             </div>
                             <div class="col-12 py-2 wow fadeInUp">
                                 <label for="message">Message</label>
-                                <textarea id="message" class="form-control" rows="8" placeholder="Enter Message.."></textarea>
+                                <textarea id="message" class="form-control" rows="8" placeholder="Enter Message.." name="message" value={contact.message} onChange={hendleInput}></textarea>
                             </div>
                         </div>
-                        <Button outline color="primary">Submit</Button>
+                        <Button outline color="primary" onClick={contactAs}>Submit</Button>
 
                     </form>
                 </div>

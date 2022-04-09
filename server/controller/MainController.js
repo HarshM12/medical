@@ -2,6 +2,7 @@ require('../model/Doctor_categoray');
 require('../model/DoctorSchema');
 require('../model/Appointment')
 require("../model/blog");
+require("../model/contact")
 require('../db/conn');
 
 const schema_list = {
@@ -10,7 +11,8 @@ const schema_list = {
     patient: "userSchema",
     blog: "blog",
     Degree: "Degree",
-    category: "Doctor_categoray"
+    category: "Doctor_categoray",
+    contact: "contact"
 };
 const express = require('express')
 const app = express();
@@ -132,11 +134,11 @@ function get_output(req, res, resource) {
             }
             break;
 
-           case "blog":
+        case "blog":
             //    const blog = req.session.user_details;
-               const b_query = req.query;            
-               console.log("000000000444444444444444444440")
-               console.log(b_query);
+            const b_query = req.query;
+            console.log("000000000444444444444444444440")
+            console.log(b_query);
             model = get_model(resource);
             if (resource) {
                 console.log("Blog...");
@@ -158,6 +160,17 @@ function get_output(req, res, resource) {
                     });
             }
 
+            break;
+
+        case "contact":
+            console.log("contact...");
+            model = get_model(resource);
+            model.find({}).
+                exec(function (err, result) {
+                    // if (err) return handleError(err);
+                    console.log(JSON.stringify(result));
+                    res.send(result);
+                });
             break;
 
         default:
@@ -284,7 +297,7 @@ async function send_email(appointment) {
                     "end_time": "5 : 00"
                 }
             ];
-            let slot_time = slots[appointment.slot-1];
+            let slot_time = slots[appointment.slot - 1];
             let info = transporter.sendMail({
                 from: 'harshmaniya811@gmail.com', // sender address
                 to: doctor.email, // list of receivers
@@ -394,7 +407,7 @@ async function send_email(appointment) {
                     "end_time": "5 : 00"
                 }
             ];
-            let slot_time = slots[appointment.slot-1];
+            let slot_time = slots[appointment.slot - 1];
             console.log("Data:");
             console.log(JSON.stringify(result));
             patient_data = result[0];

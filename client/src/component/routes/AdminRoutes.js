@@ -10,6 +10,7 @@ import Payment from "../Page/admin/Payment";
 import Appointment from '../Page/admin/Appointment';
 import Category from "../Page/admin/Category";
 import Report from "../Page/admin/Report";
+import Contact from "../Page/admin/Contact";
 
 const AdminRoute = () => {
     return(
@@ -26,6 +27,7 @@ const AdminRoute = () => {
                         <Route path='/Category' element={<Category/>} exact />
                         <Route path='/Report' element={<Report/>} exact />
                         <Route path='/Logout' element={<Logout/>} exact/>
+                        <Route path='/Contact' element={<Contact/>} exact></Route>
                     </Routes>
                 </BrowserRouter>
         </React.Fragment>

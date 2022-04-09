@@ -51,9 +51,9 @@ app.get('/About', (req, res) => {
 // app.get('/blog', (req, res) => {
 //   res.send('Hello World from a Blog')
 // });
-app.get('/Contact', (req, res) => {
-  res.send('Hello World from a Contact')
-});
+// app.get('/Contact', (req, res) => {
+//   res.send('Hello World from a Contact')
+// });
 app.get('/Register', (req, res) => {
   res.send('Hello World from a register')
 });
@@ -79,7 +79,7 @@ app.get('/PatientRegister', (req, res) => {
 
 app.use(function (req, res, next) {
   console.log('----------------');
-  var resources = ['doctor', 'patient', 'appointment', "blog", "Degree", "category"];
+  var resources = ['doctor', 'patient', 'appointment', "blog", "Degree", "category" , "contact"];
   console.log(`Request from '${req.path}'`)
   resources.forEach(resource => {
     app.get(`/${resource}`, function (req, res) {

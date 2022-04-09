@@ -17,6 +17,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { Link } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 import CategoryIcon from '@mui/icons-material/Category';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 const Leftbar = () => {
     return (
@@ -67,10 +68,18 @@ const Leftbar = () => {
                                  Category
                             </li>
                             </Link>
+                           
                             <Link to="/Report" className="link">
                             <li className="sidebarListItem">
                                 <ReportIcon className="sidebarIcon" />
                                  Report
+                            </li>
+                            </Link>
+
+                            <Link to="/Contact" className="link">
+                            <li className="sidebarListItem">
+                                <ContactSupportIcon className="sidebarIcon" />
+                                 Contact Us
                             </li>
                             </Link>
                         </ul>
