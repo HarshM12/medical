@@ -549,6 +549,8 @@ function create_zoom_meeting(appointment) {
     })
 }
 
+
+
 exports.index = async function (req, res, resource) {
     console.log("index");
     console.log("Session:" + JSON.stringify(req.session));

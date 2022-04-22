@@ -71,9 +71,7 @@ const Login = () => {
             <Header />
             <nav className="navbar navbar-expand-lg navbar-light shadow-sm">
                 <div className="container">
-
-
-                    <Link className="navbar-brand" to="/"><span className="text-primary">Virtual</span>-Medical Home</Link>
+                    <Link className="navbar-brand" to="/"><span className="text-primary">Virtual</span>-Medical-<span className="text-primary">Home</span></Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -114,12 +112,12 @@ const Login = () => {
                     <TextField id="outlined-basic" name="email" label="Enter Your User Name" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={User.email} onChange={hendleInput} autoComplete="off" required />
                     <br />
                     <TextField id="outlined-basic" type="password" name="password" label="Enter Your Password" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={User.password} onChange={hendleInput} autoComplete="off"  required/>
-                    <br /><br></br>
-                    <FormControlLabel control={<Checkbox />} label="Rember Password" style={{ marginLeft: "260px", marginTop: "-20px", width: "490px" }} />
+                    <br />
+                    {/* <FormControlLabel control={<Checkbox />} label="Rember Password" style={{ marginLeft: "260px", marginTop: "-20px", width: "490px" }} /> */}
                     
-                    <br /><br></br>
-                    <input className="btn btn-primary" type="submit"  style={{ marginLeft: "270px",width:"490px",marginTop:"-25px" }} onClick={Data} autoComplete="off" /><br/>
-                    <Link to="/ForgotPassword" style={{marginLeft: "270px"}}>Forgot Password?</Link>
+
+                    <input className="btn btn-primary" type="submit"  style={{ marginLeft: "270px",width:"490px" , marginTop:"10px" }} onClick={Data} autoComplete="off" /><br/>
+                    <Link to="/ForgotPassword" style={{marginLeft: "270px",marginLeft:"630px"}}>Forgot Password?</Link>
 
                 </form>
 

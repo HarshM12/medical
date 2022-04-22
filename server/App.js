@@ -79,7 +79,7 @@ app.get('/PatientRegister', (req, res) => {
 
 app.use(function (req, res, next) {
   console.log('----------------');
-  var resources = ['doctor', 'patient', 'appointment', "blog", "Degree", "category" , "contact"];
+  var resources = ['doctor', 'patient', 'appointment', "blog", "Degree", "category", "contact"];
   console.log(`Request from '${req.path}'`)
   resources.forEach(resource => {
     app.get(`/${resource}`, function (req, res) {
@@ -256,6 +256,79 @@ app.post('/razorpay', async (req, res) => {
     console.log(error)
   }
 });
+
+
+let verify_otp = [];
+
+
+app.post('/forggotpassword', async (req, res) => {
+  const { email } = req.body
+  if(!email){
+    res.status(300).json({ error: "Please fill the field Properly" })
+  }else{
+     res.status(200).json({message:"Done"})
+
+  }
+      
+    var otp = Math.random();
+    otp = otp * 1000000;
+    otp = parseInt(otp);
+    verify_otp.push(otp)
+    console.log(otp);
+
+
+  async function send_email() {
+    
+    const nodemailer = require("nodemailer");
+    let testAccount = await nodemailer.createTestAccount();
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      secure: true,
+      port: 465,
+      auth: {
+        user: "harshmaniya811@gmail.com", // generated ethereal user
+        pass: "harsh@1234", // generated ethereal password
+      },
+    });
+
+    let info = transporter.sendMail({
+      from: 'harshmaniya811@gmail.com', // sender address
+      to: email, // list of receivers
+      subject: "You have Recived OTP Scessfully", // Subject line
+      text: "Harsh MAniya", // plain text body
+      html: `<html>
+                        <body>  
+                        <hr/>
+                        <h2>${otp} : is Your One Time Password [OTP] For Reset New Password</h2>
+                        <hr/>
+                        </body>
+                        </html>`, // html body
+    });
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  }       // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  send_email();
+})
+
+app.post('/otpverify', async (req, res) => {
+
+  const { otp } = req.body
+
+  final_otp = verify_otp.toString()
+
+  if(final_otp === otp){
+    res.status(202).json({ Message: "Your Otp Is Match" })
+  }else{
+    res.status(400).json({ Message: "Your Otp Is Not Match" })
+  }
+
+})
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

@@ -113,7 +113,7 @@ const Home = () => {
                 <div className="container">
 
 
-                    <Link className="navbar-brand" to="#"><span className="text-primary">Virtual</span>-Medical<span className="text-primary"> Home</span></Link>
+                    <Link className="navbar-brand" to="#"><span className="text-primary">Virtual</span>-Medical-<span className="text-primary">Home</span></Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -257,7 +257,7 @@ const Home = () => {
                                             <p>{d_blog.details}</p>
                                             <p style={{color:"black"}}>-Dr.<strong>{d_blog.doctor.fname}{d_blog.doctor.lname}</strong></p>
                                             
-                                            <Link to='/ReadMore' >Read More</Link>
+                                            {/* <Link to='/ReadMore' >Read More</Link> */}
 
                                         </div>
                                     </div>

@@ -40,11 +40,12 @@ const Contacttbl = () => {
                                 <>
                                     <Card>
                                         <CardBody>
-                                            <h5><strong>Visitor Name : {contact.name}</strong></h5>
+                                            <h5><strong> Name : {contact.name}</strong></h5>
                                             <CardTitle></CardTitle>
-                                            <h5><strong>Visitor Email Address : {contact.email}</strong></h5>
+                                            <h5><strong> Email Address : {contact.email}</strong></h5>
                                             <CardTitle></CardTitle>
-                                            <h5><strong>Visitor Query : {contact.message}</strong></h5>
+                                            <h5><strong> Subject : {contact.subject}</strong></h5>
+                                            <h5><strong> Message : {contact.message}</strong></h5>
                                             <CardSubtitle></CardSubtitle>
                                         </CardBody>
                                     </Card>
