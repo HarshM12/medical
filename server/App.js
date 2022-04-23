@@ -320,10 +320,13 @@ app.post('/otpverify', async (req, res) => {
 
   final_otp = verify_otp.toString()
 
+  console.log(final_otp)
+  console.log(otp)
+
   if(final_otp === otp){
-    res.status(202).json({ Message: "Your Otp Is Match" })
+    return res.status(200).json({ Message: "Your Otp Is Match" })
   }else{
-    res.status(400).json({ Message: "Your Otp Is Not Match" })
+    return res.status(400).json({ Error: "Your Otp Is Not Match" })
   }
 
 })

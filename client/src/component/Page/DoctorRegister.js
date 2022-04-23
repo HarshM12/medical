@@ -156,11 +156,11 @@ const DoctorRegister = () => {
                 <h1 className="subhead" style={{ color: "black", letterSpacing: "8px", textAlign: "center", marginTop: "20px" }}>Please Fill Up The Form</h1><br></br>
 
                 <form>
-                    <TextField id="outlined-basic" name="fname" label="Enter Your First Name" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={Doctor.fname} onChange={hendleInput} onKeyPress={(event) => { if (!/[A-Za-z]/.test(event.key)) { event.preventDefault(); } }} required />
+                    <TextField id="outlined-basic" name="fname" label="Enter Your First Name" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={Doctor.fname} onChange={hendleInput} onKeyPress={(event) => { if (!/[A-Za-z]/.test(event.key)) { event.preventDefault(); } }} autoComplete="off" required />
                     <br />
-                    <TextField id="outlined-basic" name="lname" label="Enter Your Last Name" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={Doctor.lname} onChange={hendleInput} onKeyPress={(event) => { if (!/[A-Za-z]/.test(event.key)) { event.preventDefault(); } }} required />
+                    <TextField id="outlined-basic" name="lname" label="Enter Your Last Name" variant="outlined" style={{ marginLeft: "270px", marginTop: "10px", width: "490px" }} value={Doctor.lname} onChange={hendleInput} onKeyPress={(event) => { if (!/[A-Za-z]/.test(event.key)) { event.preventDefault(); } }} autoComplete="off" required />
                     <br />
-                    <FormControl variant="standard" style={{ marginLeft: "270px", marginTop: "10px", width: "200px" }} required>
+                    <FormControl variant="standard" style={{ marginLeft: "270px", marginTop: "10px", width: "200px" }} autoComplete="off" required>
                         <InputLabel id="demo-simple-select-standard-label">Choose Your Category</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
@@ -177,7 +177,7 @@ const DoctorRegister = () => {
                             })}
                         </Select>
                     </FormControl><br />
-                    <FormControl component="fieldset" style={{ marginLeft: "270px", marginTop: "25px", width: "490px" }} required>
+                    <FormControl component="fieldset" style={{ marginLeft: "270px", marginTop: "25px", width: "490px" }} autoComplete="off" required>
                         <FormLabel component="legend">Chooes Your Gender</FormLabel>
                         <RadioGroup value={Doctor.gender} onChange={hendleInput} name="gender">
                             <FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -186,22 +186,22 @@ const DoctorRegister = () => {
                         </RadioGroup>
                     </FormControl><br />
 
-                    <TextField id="outlined-basic" name="date" type="date" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.date} onChange={hendleInput} required />
+                    <TextField id="outlined-basic" name="date" type="date" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.date} onChange={hendleInput} autoComplete="off" required />
                     <br /><br />
                     <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Degree Document*</label>
-                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.file} onChange={hendleInput} name="file" /><br />
+                    <TextField type="file" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.file} onChange={hendleInput} name="file" autoComplete="off" /><br />
                     <label style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }}>Uplod Profile Image*</label>
-                   <TextField type="file" name="img" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} onChange={hendlefileinput} value={fileinput} /><br />
+                   <TextField type="file" name="img" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} onChange={hendlefileinput} value={fileinput} autoComplete="off" /><br />
                     {preview&& (
                         <img src={preview} alt="choose file" style={{height:"250px",borderRadius: '25%',width:"290px",marginLeft:"270px",marginTop:"15px"}}></img>
                     )}
-                    <TextField id="outlined-basic" multiline rows={5} name="Address" label="Address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Address} onChange={hendleInput} required />
+                    <TextField id="outlined-basic" multiline rows={5} name="Address" label="Address" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Address} onChange={hendleInput} required autoComplete="off" />
                     <br />
-                    <TextField id="outlined-basic" type="tel"   name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput } onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }} required />
+                    <TextField id="outlined-basic" type="tel"   name="Mobileno" label="Mobile Number" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.Mobileno} onChange={hendleInput } onKeyPress={(event) => { if (!/[0-9]/.test(event.key)) { event.preventDefault(); } }} inputProps={{ maxLength: 10,}} autoComplete="off" required />
                     <br />
-                    <TextField id="outlined-basic" name="email" label="Enter Your Email" type="email" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.email} onChange={hendleInput} required />
+                    <TextField id="outlined-basic" name="email" label="Enter Your Email" type="email" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.email} onChange={hendleInput} autoComplete="off" required />
                     <br />
-                    <TextField id="outlined-basic" name="password" label="Enter Your Password" type="password" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.password} onChange={hendleInput} required />
+                    <TextField id="outlined-basic" name="password" label="Enter Your Password" type="password" variant="outlined" style={{ marginLeft: "270px", marginTop: "15px", width: "490px" }} value={Doctor.password} onChange={hendleInput} autoComplete="off" required />
                     <br /><br />
                     <input className="btn btn-primary" type="submit" style={{ marginLeft: "270px" }} onClick={PostDate} /><br /><br />
                 </form><br />

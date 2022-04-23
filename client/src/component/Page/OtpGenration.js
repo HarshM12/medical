@@ -32,17 +32,18 @@ const OtpGenration = () => {
             body: JSON.stringify(otp)
         });
         const response = await res.json();
-        if(res.status === 400){
-            window.alert("Invalid OTP")
-        }
+        console.log(response);
+        
 
-        if(response){
-            navigate("/ResetPassword")
-        }
+       if(res.status === 400){
+           alert("Invalid OTP")
+       }
+       if(res.status===200){
+           navigate("/ResetPassword")
+       }else{
+           alert("Invalid")
+       }
 
-       
-
-       
     };
 
 
@@ -95,7 +96,7 @@ const OtpGenration = () => {
 
                 <form method="POST">
 
-                    <TextField id="standard-basic" label="Enter OTP" name="otp" variant="standard" style={{ marginLeft: "240px", width: "350px", marginTop: "10px" }} onChange={hendleInput} value={otp.otp} /><br />
+                    <TextField id="standard-basic" label="Enter OTP" name="otp" variant="standard" style={{ marginLeft: "240px", width: "350px", marginTop: "10px" }} onChange={hendleInput} value={otp.otp}  inputProps={{ maxLength: 6,}} /><br />
 
                     <div className="btn btn-primary" style={{ marginLeft: "240px", width: "350px", marginTop: "20px" }} onClick={verify_otp} >Submit</div>
 
